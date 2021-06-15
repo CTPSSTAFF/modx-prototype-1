@@ -21,19 +21,16 @@ import cartopy.crs as ccrs
 # In[2]:
 
 
-# Based directory for model results.
-base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019/' 
-#
-# For the time being, this is where the trip tables are stored:
-fake_base_dir = r'G:/Data_Resources/DataStore/TripTables/'
+# Base directory for MoDX output for "base year" model results.
+base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
 # In[3]:
 
 
-# Base directory for model results for comparison.
+# Base directory for MoDX output for "comparison scenario" model results.
 # NOTE: This variable is unused in the current version of this notebook.
-comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01/'
+comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
 # In[4]:
@@ -48,42 +45,39 @@ taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 # trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
 # The real McCoy - where things should go, and will eventually go
 tt_dir = base_dir + 'out/'
-#
-# Where things have been put for the time being - ugh
-fake_tt_dir = fake_base_dir
 
 
 # In[6]:
 
 
 # trip tables OMX file (matrices)
-tt_am = fake_tt_dir + 'AfterSC_Final_AM_Tables.omx'
-tt_md = fake_tt_dir + 'AfterSC_Final_MD_Tables.omx'
-tt_pm = fake_tt_dir + 'AfterSC_Final_PM_Tables.omx'
-tt_nt = fake_tt_dir + 'AfterSC_Final_NT_Tables.omx'
+tt_am = tt_dir + 'AfterSC_Final_AM_Tables.omx'
+tt_md = tt_dir + 'AfterSC_Final_MD_Tables.omx'
+tt_pm = tt_dir + 'AfterSC_Final_PM_Tables.omx'
+tt_nt = tt_dir + 'AfterSC_Final_NT_Tables.omx'
 trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'md' : omx.open_file(tt_pm, 'r'),
                 'pm' : omx.open_file(tt_pm,'r'),
                 'nt'  : omx.open_file(tt_nt, 'r') }
 
 
-# In[7]:
+# In[9]:
 
 
 num_tazes = trip_tables['am'].shape()[0]
 
 
-# In[8]:
+# In[7]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods (these *should* be the same)
 taz_to_omxid_am = trip_tables['am'].mapping('ID')
 taz_to_omxid_am = trip_tables['md'].mapping('ID')
 taz_to_omxid_pm = trip_tables['pm'].mapping('ID')
-taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
+taz_to_omxid_nt = trip_tables['nt'].mapping('ID')
 
 
-# In[9]:
+# In[8]:
 
 
 # We'll assume that the mapping from TAZ ID to OMX ID doesn't vary by time period.
@@ -94,7 +88,7 @@ taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[10]:
+# In[9]:
 
 
 # Function: tt_total_for_mode
@@ -118,7 +112,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[11]:
+# In[10]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -133,7 +127,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[12]:
+# In[11]:
 
 
 # Transit mode
@@ -161,7 +155,7 @@ wat_total = wat.sum(axis=1)
 transit_total = dat_boat_total + det_boat_total + dat_cr_total + det_cr_total +                 dat_lb_total + det_lb_total + dat_rt_total + det_rt_total + wat_total
 
 
-# In[13]:
+# In[12]:
 
 
 # Build a data frame, indexed by omxid, containing the total of the following kinds of trips originating in each TAZ:
@@ -172,7 +166,7 @@ total_transit_trips_df['omxid'] = total_transit_trips_df.index
 total_transit_trips_df.set_index('omxid')
 
 
-# In[14]:
+# In[13]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
@@ -181,7 +175,7 @@ taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[15]:
+# In[14]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -189,14 +183,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[16]:
+# In[15]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(total_transit_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[17]:
+# In[16]:
 
 
 # Make a static map of total trips by origin TAZ
@@ -204,7 +198,7 @@ joined_df.plot('transit_total', figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Transit Trips by Origin TAZ')
 
 
-# In[18]:
+# In[17]:
 
 
 # Make an interactive map of the above
