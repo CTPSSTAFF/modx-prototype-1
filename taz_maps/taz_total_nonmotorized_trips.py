@@ -21,19 +21,16 @@ import cartopy.crs as ccrs
 # In[2]:
 
 
-# Based directory for model results.
-base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019/' 
-#
-# For the time being, this is where the trip tables are stored:
-fake_base_dir = r'G:/Data_Resources/DataStore/TripTables/'
+# Base directory for MoDX output for "base year" model results.
+base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
 # In[3]:
 
 
-# Base directory for model results for comparison.
+# Base directory for MoDX output for "comparison scenario" model results.
 # NOTE: This variable is unused in the current version of this notebook.
-comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01/'
+comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
 # In[4]:
@@ -48,19 +45,16 @@ taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 # trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
 # The real McCoy - where things should go, and will eventually go
 tt_dir = base_dir + 'out/'
-#
-# Where things have been put for the time being - ugh
-fake_tt_dir = fake_base_dir
 
 
 # In[6]:
 
 
 # trip tables OMX file (matrices)
-tt_am = fake_tt_dir + 'AfterSC_Final_AM_Tables.omx'
-tt_md = fake_tt_dir + 'AfterSC_Final_MD_Tables.omx'
-tt_pm = fake_tt_dir + 'AfterSC_Final_PM_Tables.omx'
-tt_nt = fake_tt_dir + 'AfterSC_Final_NT_Tables.omx'
+tt_am = tt_dir + 'AfterSC_Final_AM_Tables.omx'
+tt_md = tt_dir + 'AfterSC_Final_MD_Tables.omx'
+tt_pm = tt_dir + 'AfterSC_Final_PM_Tables.omx'
+tt_nt = tt_dir + 'AfterSC_Final_NT_Tables.omx'
 trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'md' : omx.open_file(tt_pm, 'r'),
                 'pm' : omx.open_file(tt_pm,'r'),
@@ -188,7 +182,7 @@ joined_df.plot("total_nm_trips", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Non-motorized Trips by Origin TAZ')
 
 
-# In[19]:
+# In[18]:
 
 
 # Make an interactive map of the above
