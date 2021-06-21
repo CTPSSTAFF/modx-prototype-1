@@ -318,7 +318,7 @@ pm_svc_df.set_index("ID1")
 nt_svc_df.set_index("ID1")
 
 
-# In[252]:
+# In[256]:
 
 
 # Join the speed and volume/capacity data to the volume data collected above into a single dataframe.
@@ -336,16 +336,14 @@ all_data_df = j9_df.join(nt_svc_df.set_index("ID1"), on="ID1")
 all_data_df.set_index("ID1")
 
 
-# In[251]:
+# In[255]:
 
 
-all_data_df
-
-
-# In[ ]:
-
-
-
+# Export the dataframe as a CSV file
+my_output_dir = r'S:/my_modx_output_dir/'
+csv_output_fn = 'links_report.csv'
+fq_output_fn = my_output_dir + csv_output_fn
+all_data_df.to_csv(fq_output_fn, sep=',')
 
 
 # In[ ]:
