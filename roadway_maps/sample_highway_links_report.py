@@ -268,228 +268,26 @@ total_flow_join = j6_df.join(nt_truck_vol_df.set_index("ID1"), on="ID1")
 total_flow_join.set_index("ID1")
 
 
-# In[ ]:
+# In[231]:
 
 
-
-
-
-# In[165]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[166]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[168]:
-
-
-# Convert these into numpy arrays in preparation for summing 'Tot_Flow'
-am_auto_vol_np = am_auto_vol_df.to_numpy()
-am_truck_vol_np = am_auto_vol_df.to_numpy()
+# Calculate the total volume (auto + truck) for each time period, and for the entire day
 #
-md_auto_vol_np = md_auto_vol_df.to_numpy()
-md_truck_vol_np = md_truck_vol_df.to_numpy()
+total_flow_join['Tot_Flow_am'] = total_flow_join['Tot_Flow_am_auto'] + total_flow_join['Tot_Flow_am_truck']
 #
-pm_auto_vol_np = pm_auto_vol_df.to_numpy()
-pm_truck_vol_np = pm_truck_vol_df.to_numpy()
+total_flow_join['Tot_Flow_md'] = total_flow_join['Tot_Flow_md_auto'] + total_flow_join['Tot_Flow_md_truck']
 #
-nt_auto_vol_np = nt_auto_vol_df.to_numpy()
-nt_truck_vol_np = nt_truck_vol_df.to_numpy()
-
-
-# In[186]:
-
-
-# Get the total volume for each time period
-am_auto_vol_np = am_auto_vol_np + am_truck_vol_np
-md_total_vol_np = md_auto_vol_np + md_truck_vol_np
-pm_total_vol_np = pm_auto_vol_np + pm_truck_vol_np
-nt_total_vol_np = nt_auto_vol_np + nt_truck_vol_np
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[172]:
-
-
-# Sum these 4 arrays to get the total daily flow (and ID1 now muliplied by 8 - eight-fold ugh!)
-total_vol_np = am_total_vol_np + md_total_vol_np + pm_total_vol_np + nt_total_vol_np
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[151]:
-
-
-# Convert this to a pandas dataframe
-total_vol_df = pd.DataFrame(total_vol_np, columns=['Link_ID_scaled', 'Total_Volume'])
-
-
-# In[173]:
-
-
-# Calculate the 'real' link ID for each row
-total_vol_df['Link_ID'] = total_vol_df['Link_ID_scaled']/8
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[103]:
-
-
-# Read each of the link flow CSVs into Python lists - these will be converted to numpy arrays later
+total_flow_join['Tot_Flow_pm'] = total_flow_join['Tot_Flow_pm_auto'] + total_flow_join['Tot_Flow_pm_truck']
 #
-# AM flow
+total_flow_join['Tot_Flow_nt'] = total_flow_join['Tot_Flow_nt_auto'] + total_flow_join['Tot_Flow_nt_truck']
 #
-temp_list = []
-with open(am_flow_fn, newline='') as csvfile:
-    myreader = csv.reader(csvfile, delimiter=',')
-    for row in myreader:
-        temp_list.append(row)
-#
-# Save the column names in a separate list, and remove them from 'temp_list'
-column_names = temp_list[0]
-temp_list.pop(0)
-pass
+total_flow_join['Tot_Flow_daily'] = total_flow_join['Tot_Flow_am'] + total_flow_join['Tot_Flow_md'] +                                     total_flow_join['Tot_Flow_pm'] + total_flow_join['Tot_Flow_nt']
 
 
-# In[107]:
+# In[233]:
 
 
-# Convert all the data to floating point type, so it can be loaded into a numpy array
-#
-r_ix = 0
-retval_list = []
-for r in temp_list:
-    r_ix += 1
-    new_row = []
-    # print("Row = " + str(r_ix))
-    c_ix = 0
-    for c in r:
-        c_ix += 1
-        # *** WARNING: HACK! to work around cells with no data
-        temp = float(c) if c != '' else 0.0
-        new_row.append(temp)
-    #
-    retval_list.append(new_row)
-#
-
-# Load retval_list into a numpy array
-temp_np = np.array(retval_list)
+total_flow_join.set_index("ID1")
 
 
 # In[ ]:
@@ -498,58 +296,28 @@ temp_np = np.array(retval_list)
 
 
 
-# In[111]:
+# In[ ]:
 
 
-# Function: csv_to_np_array(csv_fn)
-# 
-# Summary: Given the full pathname to a CSV file,
-#                read the CSV file, extracting the column headers,
-#                and converting the data in the remaining rows into
-#                a numpy array.
-#
-# Assumption: The "cells" of the CSV file have uniform floating-point data type
-#
-# Return value: Python 'dict' containing:
-#     column_names - Python list of column names
-#     np_array - numpy array of values in the CSV file, excluding the column headers
-#
-def csv_to_np_array(csv_fn):
-    temp_list = []
-    with open(csv_fn, newline='') as csvfile:
-        myreader = csv.reader(csvfile, delimiter=',')
-        for row in myreader:
-            temp_list.append(row)
-    #
-    # Save the column names in a separate list, and remove them from 'temp_list'
-    column_names = temp_list[0]
-    temp_list.pop(0)
 
-    # Convert all the data in temp_list (which is of string type) to floating point type, 
-    # so it can be loaded into a numpy array.
-    # We accumulate the converted data in a "parallel" list/array, retval_list.
-    #
-    retval_list = []
-    for r in temp_list:
-        new_row = []
-        for c in r:
-            # *** WARNING: HACK! to work around cells with no data.
-            temp = float(c) if c != '' else 0.0
-            new_row.append(temp)
-        #
-        retval_list.append(new_row)
-    #
 
-    # Load retval_list into a numpy array, the function's return value.
-    np_array = np.array(retval_list)
-    #
-    # Function return value is a dict consisting of:
-    #     column_names - Python list of column names
-    #     np_array - numpy array of values in the CSV file, excluding the column headers
-    #
-    retval = { 'column_names' : column_names, 'np_array' : np_array }
-    return retval
-# end_def csv_to_np_array
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
