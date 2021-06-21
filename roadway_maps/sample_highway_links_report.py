@@ -63,36 +63,12 @@ highway_links_list = highway_links_df['TC_Link_ID'].tolist()
 transit_links_list = transit_links_df['Route_ID'].tolist()
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
 # In[163]:
 
 
 # Individual link-flow CSV tables:
 # For each time period, there is a separate flow CSV for autos and for trucks.
-# To get the total volume for any given time period, these need to be summed.
+# To get the total volume for any given time period, 'Tot_Flow' columns these need to be summed.
 # However, the V/C and speed data for *both* autos and trucks are reported in the CSV for autos.
 # Clear?
 #
@@ -109,7 +85,7 @@ nt_flow_auto_fn = link_flow_dir + 'NT_MMA_LinkFlow.csv'
 nt_flow_truck_fn = link_flow_dir + 'NT_MMA_LinkFlow_Trucks.csv'
 
 
-# In[197]:
+# In[234]:
 
 
 # Read each of the above CSV files containing flow data into a dataframe
@@ -124,13 +100,13 @@ temp_pm_auto_df = pd.read_csv(pm_flow_auto_fn, delimiter=',')
 temp_pm_truck_df = pd.read_csv(pm_flow_truck_fn, delimiter=',')
 #
 temp_nt_auto_df = pd.read_csv(nt_flow_auto_fn, delimiter=',')
-temp_nt_truck_df = pd.read_csv(nt_flow_truck_fn, delimiter=',')
+temp_nt_truck_df = pd.read_csv(nt_flow_truck_fn, delimiter=',') 
 
 
 # In[199]:
 
 
-# Filter the 8 "flow" dataframes to only include rows for the selected highway links
+# Filter the 8 temp "flow" dataframes to only include rows for the selected highway links
 #
 am_auto_df = temp_am_auto_df[temp_am_auto_df['ID1'].isin(highway_links_list)]
 am_truck_df = temp_am_truck_df[temp_am_truck_df['ID1'].isin(highway_links_list)]
@@ -143,6 +119,9 @@ pm_truck_df = temp_pm_truck_df[temp_pm_truck_df['ID1'].isin(highway_links_list)]
 #
 nt_auto_df = temp_nt_auto_df[temp_nt_auto_df['ID1'].isin(highway_links_list)]
 nt_truck_df = temp_nt_truck_df[temp_nt_truck_df['ID1'].isin(highway_links_list)]
+#
+# NOTE: volume/capacity and speed data will be harvested from the "auto" dataframes subsequently.
+#       See below.
 
 
 # In[200]:
@@ -294,6 +273,73 @@ total_flow_join.set_index("ID1")
 
 
 
+
+
+# In[246]:
+
+
+# Harvest the volume/capacity and speed data from the "auto" dataframes. (See above.)
+# Note variable naming convention: "svc" == "speed and volume/capacity"
+#
+am_svc_df = am_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
+#
+md_svc_df = md_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
+#
+pm_svc_df = pm_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
+#
+nt_svc_df = nt_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
+
+
+# In[247]:
+
+
+# Rename the columns of these dataframes in preparation for joining them with the speed dataframe computed above.
+#
+am_svc_df = am_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_am', 'BA_Speed' : 'BA_Speed_am',
+                                      'AB_VOC' : 'AB_VOC_am', 'BA_VOC' : 'BA_VOC_am'})
+#
+md_svc_df = md_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_md', 'BA_Speed' : 'BA_Speed_md',
+                                      'AB_VOC' : 'AB_VOC_md', 'BA_VOC' : 'BA_VOC_md'})
+#
+pm_svc_df = pm_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_pm', 'BA_Speed' : 'BA_Speed_pm',
+                                      'AB_VOC' : 'AB_VOC_pm', 'BA_VOC' : 'BA_VOC_pm'})
+#
+nt_svc_df = nt_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_nt', 'BA_Speed' : 'BA_Speed_nt',
+                                      'AB_VOC' : 'AB_VOC_nt', 'BA_VOC' : 'BA_VOC_nt'})
+
+
+# In[248]:
+
+
+# Index these dataframes in preparation for joining
+am_svc_df.set_index("ID1")
+md_svc_df.set_index("ID1")
+pm_svc_df.set_index("ID1")
+nt_svc_df.set_index("ID1")
+
+
+# In[252]:
+
+
+# Join the speed and volume/capacity data to the volume data collected above into a single dataframe.
+#
+j7_df = total_flow_join.join(am_svc_df.set_index("ID1"), on="ID1")
+j7_df.set_index("ID1")
+#
+j8_df = j7_df.join(md_svc_df.set_index("ID1"), on="ID1")
+j8_df.set_index("ID1")
+#
+j9_df = j8_df.join(pm_svc_df.set_index("ID1"), on="ID1")
+j9_df.set_index("ID1")
+#
+all_data_df = j9_df.join(nt_svc_df.set_index("ID1"), on="ID1")
+all_data_df.set_index("ID1")
+
+
+# In[251]:
+
+
+all_data_df
 
 
 # In[ ]:
