@@ -169,7 +169,7 @@ nt_truck_vol_df = nt_truck_df[['ID1', 'Tot_Flow']]
 
 
 
-# In[188]:
+# In[ ]:
 
 
 
@@ -179,6 +179,93 @@ nt_truck_vol_df = nt_truck_df[['ID1', 'Tot_Flow']]
 
 
 
+
+
+# In[210]:
+
+
+# Rename the 'Tot_Flow' column of each datafram, appropriately
+#
+am_auto_vol_df = am_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_am_auto'})
+am_truck_vol_df = am_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_am_truck'})
+#
+md_auto_vol_df = md_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_md_auto'})
+md_truck_vol_df = md_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_md_truck'})
+#
+pm_auto_vol_df = pm_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_pm_auto'})
+pm_truck_vol_df = pm_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_pm_truck'})
+#
+nt_auto_vol_df = nt_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_nt_auto'})
+nt_truck_vol_df = nt_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_nt_truck'})
+
+
+# In[215]:
+
+
+# Index all the dataframes on "ID1", in preparation for joining
+#
+am_auto_vol_df.set_index("ID1")
+am_truck_vol_df.set_index("ID1")
+#
+md_auto_vol_df.set_index("ID1")
+md_truck_vol_df.set_index("ID1")
+#
+pm_auto_vol_df.set_index("ID1")
+pm_truck_vol_df.set_index("ID1")
+#
+nt_auto_vol_df.set_index("ID1")
+nt_truck_vol_df.set_index("ID1")
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[226]:
+
+
+# Join the dataframes
+j1_df = am_auto_vol_df.join(am_truck_vol_df.set_index("ID1"), on="ID1")
+#
+j1_df.set_index("ID1")
+j2_df = j1_df.join(md_auto_vol_df.set_index("ID1"), on="ID1")
+#
+j2_df.set_index("ID1")
+j3_df = j2_df.join(md_truck_vol_df.set_index("ID1"), on="ID1")
+#
+j3_df.set_index("ID1")
+j4_df = j3_df.join(pm_auto_vol_df.set_index("ID1"), on="ID1")
+#
+j4_df.set_index("ID1")
+j5_df = j4_df.join(pm_truck_vol_df.set_index("ID1"), on="ID1")
+#
+j5_df.set_index("ID1")
+j6_df = j5_df.join(nt_auto_vol_df.set_index("ID1"), on="ID1")
+#
+j6_df.set_index("ID1")
+total_flow_join = j6_df.join(nt_truck_vol_df.set_index("ID1"), on="ID1")
+#
+total_flow_join.set_index("ID1")
 
 
 # In[ ]:
