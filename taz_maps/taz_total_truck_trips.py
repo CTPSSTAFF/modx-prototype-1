@@ -161,7 +161,7 @@ total_truck_trips_df.set_index('omxid')
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
@@ -193,7 +193,7 @@ plt.title('Total Truck Trips by Origin TAZ')
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='truck_total', hover_cols=['id', 'town', 'truck_total'], 
+joined_df.hvplot(c='truck_total', geo=True, hover_cols=['id', 'town', 'truck_total'], 
                  clabel='Total Trips', cmap='plasma').opts(title='Total Truck Trips by Origin TAZ')
 
 
