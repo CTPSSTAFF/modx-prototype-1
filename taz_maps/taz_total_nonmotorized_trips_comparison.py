@@ -164,7 +164,7 @@ base_walk_total = base_walk.sum(axis=1)
 base_nm_total = base_bike_total + base_walk_total
 
 
-# In[14]:
+# In[15]:
 
 
 # Non-motorized mode - comparison scenario
@@ -173,7 +173,7 @@ comp_bike = comp_all_nm['Bike']
 comp_walk = comp_all_nm['Walk']
 comp_bike_total = comp_bike.sum(axis=1)
 comp_walk_total = base_walk.sum(axis=1)
-# Grand total for the 'non-motorized' mode, base scenario
+# Grand total for the 'non-motorized' mode, comparison scenario
 comp_nm_total = comp_bike_total + comp_walk_total
 
 
@@ -199,7 +199,7 @@ delta_total_nm_trips_df.set_index('omxid')
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
@@ -231,7 +231,7 @@ plt.title('Change in Total Non-motorized Trips by Origin TAZ')
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='delta_total_nm', hover_cols=['id', 'town', 'delta_total_nm'], 
+joined_df.hvplot(c='delta_total_nm', geo=True, hover_cols=['id', 'town', 'delta_total_nm'], 
     clabel='Change in Total Non-motorized Trips', cmap='plasma').opts(title='Change in Total Non-Motorized Trips by Origin TAZ')
 
 
