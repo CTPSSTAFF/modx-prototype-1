@@ -61,13 +61,13 @@ trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'nt'  : omx.open_file(tt_nt, 'r') }
 
 
-# In[9]:
+# In[7]:
 
 
 num_tazes = trip_tables['am'].shape()[0]
 
 
-# In[7]:
+# In[8]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods (these *should* be the same)
@@ -77,7 +77,7 @@ taz_to_omxid_pm = trip_tables['pm'].mapping('ID')
 taz_to_omxid_nt = trip_tables['nt'].mapping('ID')
 
 
-# In[8]:
+# In[9]:
 
 
 # We'll assume that the mapping from TAZ ID to OMX ID doesn't vary by time period.
@@ -88,7 +88,7 @@ taz_to_omxid_nt = trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[9]:
+# In[10]:
 
 
 # Function: tt_total_for_mode
@@ -112,7 +112,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[10]:
+# In[11]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -127,7 +127,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[11]:
+# In[12]:
 
 
 # Transit mode
@@ -155,7 +155,7 @@ wat_total = wat.sum(axis=1)
 transit_total = dat_boat_total + det_boat_total + dat_cr_total + det_cr_total +                 dat_lb_total + det_lb_total + dat_rt_total + det_rt_total + wat_total
 
 
-# In[12]:
+# In[13]:
 
 
 # Build a data frame, indexed by omxid, containing the total of the following kinds of trips originating in each TAZ:
@@ -166,16 +166,16 @@ total_transit_trips_df['omxid'] = total_transit_trips_df.index
 total_transit_trips_df.set_index('omxid')
 
 
-# In[13]:
+# In[14]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[14]:
+# In[15]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -183,14 +183,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[15]:
+# In[16]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(total_transit_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[16]:
+# In[17]:
 
 
 # Make a static map of total trips by origin TAZ
@@ -198,11 +198,11 @@ joined_df.plot('transit_total', figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Transit Trips by Origin TAZ')
 
 
-# In[17]:
+# In[18]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='transit_total', hover_cols=['id', 'town', 'transit_total'], 
+joined_df.hvplot(c='transit_total', geo=True, hover_cols=['id', 'town', 'transit_total'], 
                  clabel='Total Trips', cmap='plasma').opts(title='Total Transit Trips by Origin TAZ')
 
 
