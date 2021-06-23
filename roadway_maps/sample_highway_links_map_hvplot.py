@@ -66,7 +66,7 @@ links_list = links_data_df['ID1'].to_list()
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[22]:
+# In[9]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -77,33 +77,33 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[23]:
+# In[10]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[12]:
+# In[11]:
 
 
 filtered_links_gdf
 
 
-# In[24]:
+# In[12]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[25]:
+# In[13]:
 
 
 join_df
 
 
-# In[31]:
+# In[14]:
 
 
 # Make a static map of the Speed in the A-to-B direction in the AM period
@@ -111,11 +111,11 @@ join_df.plot("AB_Speed_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('A-B speed in AM')
 
 
-# In[32]:
+# In[15]:
 
 
 # Make an interactive map of the above
-join_df.hvplot(figsize=(10.0,8.0))
+join_df.hvplot(geo=True)
 
 
 # In[ ]:
