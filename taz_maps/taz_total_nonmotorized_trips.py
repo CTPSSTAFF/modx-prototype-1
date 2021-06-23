@@ -154,7 +154,7 @@ total_nm_trips_df.set_index('omxid')
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
@@ -186,7 +186,7 @@ plt.title('Total Non-motorized Trips by Origin TAZ')
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='total_nm_trips', hover_cols=['id', 'town', 'total_nm_trips'], 
+joined_df.hvplot(c='total_nm_trips', geo=True, hover_cols=['id', 'town', 'total_nm_trips'], 
                 clabel='Total Trips', cmap='plasma').opts(title='Total Non-motorized Trips by Origin TAZ')
 
 
