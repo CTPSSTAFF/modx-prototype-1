@@ -24,27 +24,27 @@ import cartopy.crs as ccrs
 
 
 # Directory in which user's output CSV report data was saved - it will now be our *input* directory
-my_output_dir = r'S:/my_modx_output_dir/'
+my_sandbox_dir = r'S:/my_modx_output_dir/'
 
 
 # In[3]:
 
 
-# Name of CSV output file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
-csv_output_fn = 'links_report.csv'
+# Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
+csv_fn = 'links_report_base_scenario.csv'
 
 
 # In[4]:
 
 
 # Fully-qualified pathname to CSV file
-fq_output_fn = my_output_dir + csv_output_fn
+fq_csv_fn = my_sandbox_dir + csv_fn
 
 
 # In[5]:
 
 
-links_data_df = pd.read_csv(fq_output_fn, delimiter=',')
+links_data_df = pd.read_csv(fq_csv_fn, delimiter=',')
 
 
 # In[6]:
@@ -56,17 +56,25 @@ links_data_df
 # In[7]:
 
 
-links_list = links_data_df['ID1'].to_list()
+# Sanity check
+list(links_data_df.columns)
 
 
 # In[8]:
+
+
+# List of the IDs for the model network links for which data is reported in the input CSV file
+links_list = links_data_df['ID1'].to_list()
+
+
+# In[9]:
 
 
 # Directory in which the spatial data for the model network links is stored (both shapefile and GeoJSON formats)
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[9]:
+# In[10]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -77,45 +85,72 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[10]:
+# In[11]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[11]:
+# In[12]:
 
 
 filtered_links_gdf
 
 
-# In[12]:
+# In[13]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[13]:
+# In[14]:
 
 
 join_df
 
 
-# In[14]:
+# In[24]:
 
 
-# Make a static map of the Speed in the A-to-B direction in the AM period
-join_df.plot("AB_Speed_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
-plt.title('A-B speed in AM')
+# Make a static map of speed during the AM period
+join_df.plot("Speed_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.title('Speed in AM')
 
 
-# In[15]:
+# In[25]:
 
 
-# Make an interactive map of the above
-join_df.hvplot(geo=True)
+# Make a static map of the volume-to-capacity ratio during the AM period
+join_df.plot("VOC_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.title('VOC in AM')
+
+
+# In[26]:
+
+
+# Make a static map of total daily flow (volume) ratio during the AM period
+join_df.plot("Tot_Flow_daily", figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.title('Daily Total Flow (volume)')
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
