@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 # Total external trips notebook
@@ -18,14 +18,14 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
-# In[3]:
+# In[2]:
 
 
 # Base directory for MoDX output for "base year" model results.
 base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
-# In[4]:
+# In[3]:
 
 
 # Base directory for MoDX output for "comparison scenario" model results.
@@ -33,13 +33,13 @@ base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019
 comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
-# In[5]:
+# In[4]:
 
 
 taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 
 
-# In[6]:
+# In[5]:
 
 
 # trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
@@ -47,7 +47,7 @@ taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 tt_dir = base_dir + 'out/'
 
 
-# In[7]:
+# In[6]:
 
 
 # trip tables OMX file (matrices)
@@ -61,13 +61,13 @@ trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'nt'  : omx.open_file(tt_nt, 'r') }
 
 
-# In[8]:
+# In[7]:
 
 
 num_tazes = trip_tables['am'].shape()[0]
 
 
-# In[9]:
+# In[8]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods (these *should* be the same)
@@ -77,7 +77,7 @@ taz_to_omxid_pm = trip_tables['pm'].mapping('ID')
 taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 
 
-# In[10]:
+# In[9]:
 
 
 # We'll assume that the mapping from TAZ ID to OMX ID doesn't vary by time period.
@@ -88,7 +88,7 @@ taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[11]:
+# In[10]:
 
 
 # Function: tt_total_for_mode
@@ -112,7 +112,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[12]:
+# In[11]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -127,7 +127,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[13]:
+# In[12]:
 
 
 # *** Careful about running this ... it is a large hammer!
@@ -141,13 +141,13 @@ all_modes = tt_totals_for_mode_list(trip_tables, mode_list)
 sum_all_modes = all_modes['SOV'] + all_modes['HOV'] +                 all_modes['Heavy_Truck'] + all_modes['Heavy_Truck_HazMat'] +                 all_modes['Medium_Truck'] + all_modes['Medium_Truck_HazMat'] +                 all_modes['Light_Truck'] +                 all_modes['DAT_Boat'] + all_modes['DET_Boat'] +                  all_modes['DAT_CR'] + all_modes['DET_CR'] +                 all_modes['DAT_LB'] + all_modes['DET_LB'] +                 all_modes['DAT_RT'] + all_modes['DET_RT'] +                 all_modes['WAT']
 
 
-# In[24]:
+# In[13]:
 
 
 sum_all_modes_by_origin = sum_all_modes.sum(axis=1)
 
 
-# In[25]:
+# In[14]:
 
 
 # Build a data frame, indexed by omxid, containing the  trips originating in each TAZ:
@@ -157,31 +157,7 @@ total_all_modes_trips_df['omxid'] = total_all_modes_trips_df.index
 total_all_modes_trips_df.set_index('omxid')
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[29]:
-
-
-
-
-
-# In[16]:
+# In[15]:
 
 
 # A bit of a digression here, for the time being...
@@ -191,7 +167,7 @@ taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[51]:
+# In[16]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, and 'calc' in the corresponding omxid value,
@@ -199,14 +175,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[52]:
+# In[17]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(total_all_modes_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[55]:
+# In[18]:
 
 
 # Extract the rows for external TAZes:
@@ -217,22 +193,37 @@ first_external_taz = 209001
 external_taz_gdf = joined_df[joined_df['id'] >= first_external_taz]
 
 
-# In[57]:
+# In[19]:
 
 
 external_taz_gdf
 
 
-# In[65]:
+# In[27]:
 
 
 # Make a static horizontal bar chart of the data
 temp_df = external_taz_gdf[['id', 'town_state', 'sum_all_modes_by_origin']]
+temp_df = temp_df.rename(columns={'sum_all_modes_by_origin' : 'total_demand'})
 #
 plt.rcParams["figure.figsize"] = (10,20)
 #
-temp_df.plot.barh(x='town_state', y='sum_all_modes_by_origin', 
+temp_df.plot.barh(x='town_state', y='total_demand', 
                   ylabel='Number of Trips', title='Number of Trips from External TAZes')
+
+
+# In[28]:
+
+
+# Make an interactive bar chart of the same information 
+temp_df.hvplot.barh(x='town_state', xlabel='Origin', 
+                    y='total_demand', ylabel='Total Demand', xformatter="%f", height=1000)
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
