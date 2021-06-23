@@ -151,7 +151,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[14]:
+# In[13]:
 
 
 # Truck mode - base scenario
@@ -171,7 +171,7 @@ base_light_total = base_light.sum(axis=1)
 base_truck_total = base_heavy_total + base_heavy_haz_total + base_medium_total + base_medium_haz_total + base_light_total
 
 
-# In[15]:
+# In[14]:
 
 
 # Truck mode - comparison scenario
@@ -191,14 +191,14 @@ comp_light_total = comp_light.sum(axis=1)
 comp_truck_total = comp_heavy_total + comp_heavy_haz_total + comp_medium_total + comp_medium_haz_total + comp_light_total
 
 
-# In[17]:
+# In[15]:
 
 
 # Compute delta between scenarios
 delta_total_truck = comp_truck_total - base_truck_total
 
 
-# In[18]:
+# In[16]:
 
 
 # Build a data frame, indexed by omxid, 
@@ -209,16 +209,16 @@ delta_total_truck_trips_df['omxid'] = delta_total_truck_trips_df.index
 delta_total_truck_trips_df.set_index('omxid')
 
 
-# In[19]:
+# In[17]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[20]:
+# In[18]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -226,14 +226,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[21]:
+# In[19]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(delta_total_truck_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[22]:
+# In[20]:
 
 
 # Make a static map of total auto trips by origin TAZ
@@ -241,11 +241,11 @@ joined_df.plot("delta_total_truck", figsize=(10.0,8.0), cmap='plasma', legend=Tr
 plt.title('Change in Total Truck Trips by Origin TAZ')
 
 
-# In[23]:
+# In[21]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='delta_total_truck', hover_cols=['id', 'town', 'delta_total_truck'], 
+joined_df.hvplot(c='delta_total_truck', geo=True, hover_cols=['id', 'town', 'delta_total_truck'], 
                  clabel='Change in Total Truck Trips', cmap='plasma').opts(title='Change in Total Truck Trips by Origin TAZ')
 
 
