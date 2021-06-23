@@ -150,16 +150,18 @@ total_auto_trips_df['omxid'] = total_auto_trips_df.index
 total_auto_trips_df.set_index('omxid')
 
 
-# In[14]:
+# In[19]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+# N.B. Use shapefile in WGS84 SRS.
+#
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[15]:
+# In[20]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -167,14 +169,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[16]:
+# In[21]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(total_auto_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[17]:
+# In[22]:
 
 
 # Make a static map of total auto trips by origin TAZ
@@ -182,11 +184,11 @@ joined_df.plot("auto_total", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Auito Trips by Origin TAZ')
 
 
-# In[18]:
+# In[23]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='auto_total', hover_cols=['id', 'town', 'auto_total'], 
+joined_df.hvplot(c='auto_total', geo=True, hover_cols=['id', 'town', 'auto_total'], 
                  clabel='Total Auto Trips', cmap='plasma').opts(title='Total Auto Trips by Origin TAZ')
 
 
