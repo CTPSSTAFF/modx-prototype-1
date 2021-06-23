@@ -151,7 +151,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[15]:
+# In[13]:
 
 
 # Transit mode - base scenario
@@ -178,7 +178,7 @@ base_wat_total = base_wat.sum(axis=1)
 base_transit_total = base_dat_boat_total + base_det_boat_total + base_dat_cr_total + base_det_cr_total +                      base_dat_lb_total + base_det_lb_total + base_dat_rt_total + base_det_rt_total + base_wat_total
 
 
-# In[16]:
+# In[14]:
 
 
 # Transit mode - comparison scenario
@@ -205,14 +205,14 @@ comp_wat_total = comp_wat.sum(axis=1)
 comp_transit_total = comp_dat_boat_total + comp_det_boat_total + comp_dat_cr_total + comp_det_cr_total +                      comp_dat_lb_total + comp_det_lb_total + comp_dat_rt_total + comp_det_rt_total + comp_wat_total
 
 
-# In[17]:
+# In[15]:
 
 
 # Compute delta between scenarios
 delta_total_transit = comp_transit_total - base_transit_total
 
 
-# In[18]:
+# In[16]:
 
 
 # Build a data frame, indexed by omxid, 
@@ -223,16 +223,16 @@ delta_total_transit_trips_df['omxid'] = delta_total_transit_trips_df.index
 delta_total_transit_trips_df.set_index('omxid')
 
 
-# In[19]:
+# In[17]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[20]:
+# In[18]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -240,14 +240,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[21]:
+# In[19]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(delta_total_transit_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[22]:
+# In[20]:
 
 
 # Make a static map of total transit trips by origin TAZ
@@ -255,11 +255,11 @@ joined_df.plot("delta_total_transit", figsize=(10.0,8.0), cmap='plasma', legend=
 plt.title('Change in Total Transit Trips by Origin TAZ')
 
 
-# In[23]:
+# In[21]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='delta_total_transit', hover_cols=['id', 'town', 'delta_total_transit'], 
+joined_df.hvplot(c='delta_total_transit', geo=True, hover_cols=['id', 'town', 'delta_total_transit'], 
     clabel='Change in Total Transit Trips', cmap='plasma').opts(title='Change in Total Transit Trips by Origin TAZ')
 
 
