@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[157]:
+# In[34]:
 
 
 # Sample highway links flow, V/C, and speeds notebook
@@ -20,14 +20,14 @@ import cartopy.crs as ccrs
 import csv
 
 
-# In[158]:
+# In[35]:
 
 
 # Base directory for MoDX output for "base year" model results.
 base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
-# In[159]:
+# In[36]:
 
 
 # Base directory for MoDX output for "comparison scenario" model results.
@@ -35,14 +35,14 @@ base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019
 comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
-# In[160]:
+# In[37]:
 
 
 # Directory containing link flow CSVs
 link_flow_dir = base_dir + 'out/'
 
 
-# In[ ]:
+# In[38]:
 
 
 # Get the IDs of the links for which to generate this report:
@@ -63,7 +63,7 @@ highway_links_list = highway_links_df['TC_Link_ID'].tolist()
 transit_links_list = transit_links_df['Route_ID'].tolist()
 
 
-# In[163]:
+# In[39]:
 
 
 # Individual link-flow CSV tables:
@@ -85,7 +85,7 @@ nt_flow_auto_fn = link_flow_dir + 'NT_MMA_LinkFlow.csv'
 nt_flow_truck_fn = link_flow_dir + 'NT_MMA_LinkFlow_Trucks.csv'
 
 
-# In[234]:
+# In[40]:
 
 
 # Read each of the above CSV files containing flow data into a dataframe
@@ -103,7 +103,7 @@ temp_nt_auto_df = pd.read_csv(nt_flow_auto_fn, delimiter=',')
 temp_nt_truck_df = pd.read_csv(nt_flow_truck_fn, delimiter=',') 
 
 
-# In[199]:
+# In[41]:
 
 
 # Filter the 8 temp "flow" dataframes to only include rows for the selected highway links
@@ -124,7 +124,7 @@ nt_truck_df = temp_nt_truck_df[temp_nt_truck_df['ID1'].isin(highway_links_list)]
 #       See below.
 
 
-# In[200]:
+# In[42]:
 
 
 # Further filter the filetered "flow" datafames to only include the columns containing 'Tot_Flow' (and 'ID1')
@@ -142,28 +142,10 @@ nt_auto_vol_df = nt_auto_df[['ID1', 'Tot_Flow']]
 nt_truck_vol_df = nt_truck_df[['ID1', 'Tot_Flow']]
 
 
-# In[ ]:
+# In[43]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[210]:
-
-
-# Rename the 'Tot_Flow' column of each datafram, appropriately
+# Rename the 'Tot_Flow' column of each dataframe, appropriately
 #
 am_auto_vol_df = am_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_am_auto'})
 am_truck_vol_df = am_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_am_truck'})
@@ -178,10 +160,10 @@ nt_auto_vol_df = nt_auto_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_nt_auto'}
 nt_truck_vol_df = nt_truck_vol_df.rename(columns={'Tot_Flow' : 'Tot_Flow_nt_truck'})
 
 
-# In[215]:
+# In[45]:
 
 
-# Index all the dataframes on "ID1", in preparation for joining
+# Index all the "volume" dataframes on "ID1", in preparation for joining
 #
 am_auto_vol_df.set_index("ID1")
 am_truck_vol_df.set_index("ID1")
@@ -196,34 +178,10 @@ nt_auto_vol_df.set_index("ID1")
 nt_truck_vol_df.set_index("ID1")
 
 
-# In[ ]:
+# In[46]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[226]:
-
-
-# Join the dataframes
+# Join the "volume" dataframes
 j1_df = am_auto_vol_df.join(am_truck_vol_df.set_index("ID1"), on="ID1")
 #
 j1_df.set_index("ID1")
@@ -247,7 +205,7 @@ total_flow_join = j6_df.join(nt_truck_vol_df.set_index("ID1"), on="ID1")
 total_flow_join.set_index("ID1")
 
 
-# In[231]:
+# In[47]:
 
 
 # Calculate the total volume (auto + truck) for each time period, and for the entire day
@@ -263,23 +221,24 @@ total_flow_join['Tot_Flow_nt'] = total_flow_join['Tot_Flow_nt_auto'] + total_flo
 total_flow_join['Tot_Flow_daily'] = total_flow_join['Tot_Flow_am'] + total_flow_join['Tot_Flow_md'] +                                     total_flow_join['Tot_Flow_pm'] + total_flow_join['Tot_Flow_nt']
 
 
-# In[233]:
+# In[48]:
+
+
+# Sanity check
+total_flow_join
+
+
+# In[49]:
 
 
 total_flow_join.set_index("ID1")
 
 
-# In[ ]:
+# In[50]:
 
 
-
-
-
-# In[246]:
-
-
-# Harvest the volume/capacity and speed data from the "auto" dataframes. (See above.)
-# Note variable naming convention: "svc" == "speed and volume/capacity"
+# Harvest the speed and volume-to-capacity ratio data from the 4 "auto" dataframes, one for each time period. (See above.)
+# Note Python variable naming convention used here: "svc" == "speed and volume/capacity"
 #
 am_svc_df = am_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
 #
@@ -290,35 +249,105 @@ pm_svc_df = pm_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
 nt_svc_df = nt_auto_df[['ID1', 'AB_Speed', 'BA_Speed', 'AB_VOC', 'BA_VOC']]
 
 
-# In[247]:
+# In[52]:
 
 
-# Rename the columns of these dataframes in preparation for joining them with the speed dataframe computed above.
+# Sanity check
+am_svc_df
+
+
+# In[53]:
+
+
+# Rename the columns of these "svc" dataframes in preparation for joining them with the speed dataframe, computed above.
 #
-am_svc_df = am_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_am', 'BA_Speed' : 'BA_Speed_am',
-                                      'AB_VOC' : 'AB_VOC_am', 'BA_VOC' : 'BA_VOC_am'})
+am_svc_df = am_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_am', 
+                                      'BA_Speed' : 'BA_Speed_am',
+                                      'AB_VOC'   : 'AB_VOC_am', 
+                                      'BA_VOC'   : 'BA_VOC_am'})
 #
-md_svc_df = md_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_md', 'BA_Speed' : 'BA_Speed_md',
-                                      'AB_VOC' : 'AB_VOC_md', 'BA_VOC' : 'BA_VOC_md'})
+md_svc_df = md_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_md', 
+                                      'BA_Speed' : 'BA_Speed_md',
+                                      'AB_VOC'   : 'AB_VOC_md', 
+                                      'BA_VOC'   : 'BA_VOC_md'})
 #
-pm_svc_df = pm_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_pm', 'BA_Speed' : 'BA_Speed_pm',
-                                      'AB_VOC' : 'AB_VOC_pm', 'BA_VOC' : 'BA_VOC_pm'})
+pm_svc_df = pm_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_pm', 
+                                      'BA_Speed' : 'BA_Speed_pm',
+                                      'AB_VOC'   : 'AB_VOC_pm', 
+                                      'BA_VOC'   : 'BA_VOC_pm'})
 #
-nt_svc_df = nt_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_nt', 'BA_Speed' : 'BA_Speed_nt',
-                                      'AB_VOC' : 'AB_VOC_nt', 'BA_VOC' : 'BA_VOC_nt'})
+nt_svc_df = nt_svc_df.rename(columns={'AB_Speed' : 'AB_Speed_nt', 
+                                      'BA_Speed' : 'BA_Speed_nt',
+                                      'AB_VOC'   : 'AB_VOC_nt', 
+                                      'BA_VOC'   : 'BA_VOC_nt'})
 
 
-# In[248]:
+# In[54]:
 
 
-# Index these dataframes in preparation for joining
+# Sanity check
+nt_svc_df
+
+
+# In[58]:
+
+
+# Per instructions from Marty on June 22, 2021:
+# For a given time period, calculate the MIN of the AB_Speed and BA_Speed, and the MAX of the AB_VOC and BA_VOC.
+# Basically, the idea is to flag the link direction with the most congestion.
+#
+am_svc_df['Speed_am'] = am_svc_df.apply(lambda x: min(x['AB_Speed_am'], x['BA_Speed_am']), axis=1)
+am_svc_df['VOC_am'] = am_svc_df.apply(lambda x: max(x['AB_VOC_am'], x['BA_VOC_am']), axis=1)
+#
+md_svc_df['Speed_md'] = md_svc_df.apply(lambda x: min(x['AB_Speed_md'], x['BA_Speed_md']), axis=1)
+md_svc_df['VOC_md'] = md_svc_df.apply(lambda x: max(x['AB_VOC_md'], x['BA_VOC_md']), axis=1)
+#
+pm_svc_df['Speed_pm'] = pm_svc_df.apply(lambda x: min(x['AB_Speed_pm'], x['BA_Speed_pm']), axis=1)
+pm_svc_df['VOC_pm'] = pm_svc_df.apply(lambda x: max(x['AB_VOC_pm'], x['BA_VOC_pm']), axis=1)
+#
+nt_svc_df['Speed_nt'] = nt_svc_df.apply(lambda x: min(x['AB_Speed_nt'], x['BA_Speed_nt']), axis=1)
+nt_svc_df['VOC_nt'] = nt_svc_df.apply(lambda x: max(x['AB_VOC_nt'], x['BA_VOC_nt']), axis=1)
+
+
+# In[59]:
+
+
+# Santiy check #1
+am_svc_df
+
+
+# In[60]:
+
+
+# Santiy check #2
+md_svc_df
+
+
+# In[61]:
+
+
+# Santiy check #3
+pm_svc_df
+
+
+# In[62]:
+
+
+# Santiy check #4
+nt_svc_df
+
+
+# In[64]:
+
+
+# Index the "svc" dataframes in preparation for joining
 am_svc_df.set_index("ID1")
 md_svc_df.set_index("ID1")
 pm_svc_df.set_index("ID1")
 nt_svc_df.set_index("ID1")
 
 
-# In[256]:
+# In[65]:
 
 
 # Join the speed and volume/capacity data to the volume data collected above into a single dataframe.
@@ -336,12 +365,12 @@ all_data_df = j9_df.join(nt_svc_df.set_index("ID1"), on="ID1")
 all_data_df.set_index("ID1")
 
 
-# In[255]:
+# In[66]:
 
 
 # Export the dataframe as a CSV file
 my_output_dir = r'S:/my_modx_output_dir/'
-csv_output_fn = 'links_report.csv'
+csv_output_fn = 'links_report_base_scenario.csv'
 fq_output_fn = my_output_dir + csv_output_fn
 all_data_df.to_csv(fq_output_fn, sep=',')
 
