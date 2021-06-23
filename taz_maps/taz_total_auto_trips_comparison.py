@@ -18,27 +18,27 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
-# In[4]:
+# In[2]:
 
 
 # Root directory for MoDX output for "base year" model results.
 base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
-# In[5]:
+# In[3]:
 
 
 # Root directory for MoDX output for "comparison scenario" model results.
 comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
-# In[6]:
+# In[4]:
 
 
 taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 
 
-# In[15]:
+# In[5]:
 
 
 # trip_tables directories 
@@ -46,7 +46,7 @@ base_tt_dir = base_dir + 'out/'
 comp_tt_dir = comparison_base_dir + 'out/'
 
 
-# In[8]:
+# In[6]:
 
 
 # trip tables OMX file (matrices) for base scenario
@@ -60,7 +60,7 @@ base_trip_tables = { 'am' :  omx.open_file(base_tt_am, 'r'),
                      'nt'  : omx.open_file(base_tt_nt, 'r') }
 
 
-# In[16]:
+# In[7]:
 
 
 # trip tables OMX file (matrices) for comparison scenario
@@ -74,7 +74,7 @@ comp_trip_tables = { 'am' :  omx.open_file(base_tt_am, 'r'),
                      'nt'  : omx.open_file(base_tt_nt, 'r') }
 
 
-# In[17]:
+# In[8]:
 
 
 # trip tables OMX file (matrices) for comparison scenario
@@ -88,13 +88,13 @@ comp_trip_tables = { 'am' :  omx.open_file(comp_tt_am, 'r'),
                      'nt'  : omx.open_file(comp_tt_nt, 'r') }
 
 
-# In[19]:
+# In[9]:
 
 
 num_tazes = base_trip_tables['am'].shape()[0]
 
 
-# In[20]:
+# In[10]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods.
@@ -112,7 +112,7 @@ taz_to_omxid_nt = base_trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[21]:
+# In[11]:
 
 
 # Function tt_total_for_mode
@@ -136,7 +136,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[22]:
+# In[12]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -151,7 +151,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[26]:
+# In[13]:
 
 
 # Auto mode - base scenario
@@ -164,7 +164,7 @@ base_hov_total = base_hov.sum(axis=1)
 base_auto_total = base_sov_total + base_hov_total
 
 
-# In[27]:
+# In[14]:
 
 
 # Auto mode - comparison scenario
@@ -177,14 +177,14 @@ comp_hov_total = comp_hov.sum(axis=1)
 comp_auto_total = comp_sov_total + comp_hov_total
 
 
-# In[32]:
+# In[15]:
 
 
 # Compute delta between scenarios
 delta_total_auto = comp_auto_total - base_auto_total
 
 
-# In[34]:
+# In[16]:
 
 
 # Build a data frame, indexed by omxid, 
@@ -195,16 +195,16 @@ delta_total_auto_trips_df['omxid'] = delta_total_auto_trips_df.index
 delta_total_auto_trips_df.set_index('omxid')
 
 
-# In[35]:
+# In[22]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[36]:
+# In[23]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -212,14 +212,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[37]:
+# In[24]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(delta_total_auto_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[40]:
+# In[25]:
 
 
 # Make a static map of total auto trips by origin TAZ
@@ -227,11 +227,11 @@ joined_df.plot("delta_total_auto", figsize=(10.0,8.0), cmap='plasma', legend=Tru
 plt.title('Change in Total Auto Trips by Origin TAZ')
 
 
-# In[41]:
+# In[26]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='delta_total_auto', hover_cols=['id', 'town', 'delta_total_auto'], 
+joined_df.hvplot(c='delta_total_auto', geo=True, hover_cols=['id', 'town', 'delta_total_auto'], 
                  clabel='Change in Total Auto Trips', cmap='plasma').opts(title='Change in Total Auto Trips by Origin TAZ')
 
 
