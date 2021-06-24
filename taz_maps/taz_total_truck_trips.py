@@ -18,6 +18,8 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
+# %matplotlib notebook
+
 # In[2]:
 
 
@@ -187,6 +189,7 @@ joined_df = taz_gdf.join(total_truck_trips_df.set_index('omxid'), on='omxid')
 # Make a static map of total trips by origin TAZ
 joined_df.plot("truck_total", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Truck Trips by Origin TAZ')
+plt.show()
 
 
 # In[18]:
