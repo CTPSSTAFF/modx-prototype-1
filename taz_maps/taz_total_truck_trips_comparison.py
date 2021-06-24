@@ -18,6 +18,12 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
+# In[ ]:
+
+
+get_ipython().run_line_magic('matplotlib', 'notebook')
+
+
 # In[2]:
 
 
