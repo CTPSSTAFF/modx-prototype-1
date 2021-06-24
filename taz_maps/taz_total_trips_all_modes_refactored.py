@@ -16,6 +16,12 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
+# In[ ]:
+
+
+get_ipython().run_line_magic('matplotlib', 'notebook')
+
+
 # In[2]:
 
 
@@ -297,7 +303,7 @@ total_trips_df.set_index('omxid')
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
-taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
+taz_shapefile = taz_shapefile_base_dir + 'candidate_CTPS_TAZ_STATEWIDE_2019_wgs84.shp'
 taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
@@ -323,6 +329,7 @@ joined_df = taz_gdf.join(total_trips_df.set_index('omxid'), on='omxid')
 # Make a static map of total trips by origin TAZ
 joined_df.plot("total_trips", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Trips by Origin TAZ')
+plt.show()
 
 
 # In[31]:
@@ -331,6 +338,7 @@ plt.title('Total Trips by Origin TAZ')
 # Make a static map of total auto trips by origin TAZ
 joined_df.plot("total_auto", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Auto Trips by Origin TAZ')
+plt.show()
 
 
 # In[32]:
@@ -339,6 +347,7 @@ plt.title('Total Auto Trips by Origin TAZ')
 # Make a static map of total truck trips by origin TAZ
 joined_df.plot("total_truck", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Truck Trips by Origin TAZ')
+plt.show()
 
 
 # In[33]:
@@ -347,6 +356,7 @@ plt.title('Total Truck Trips by Origin TAZ')
 # Make a static map of total non-motorized trips by origin TAZ
 joined_df.plot("total_nm", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Non-motorized Trips by Origin TAZ')
+plt.show()
 
 
 # In[34]:
@@ -355,6 +365,7 @@ plt.title('Total Non-motorized Trips by Origin TAZ')
 # Make a static map of total transit trips by origin TAZ
 joined_df.plot("total_transit", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Transit Trips by Origin TAZ')
+plt.show()
 
 
 # In[35]:
