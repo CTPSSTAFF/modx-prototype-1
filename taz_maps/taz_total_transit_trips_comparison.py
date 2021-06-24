@@ -18,6 +18,12 @@ import hvplot.xarray
 import cartopy.crs as ccrs
 
 
+# In[ ]:
+
+
+get_ipython().run_line_magic('matplotlib', 'notebook')
+
+
 # In[2]:
 
 
@@ -253,6 +259,7 @@ joined_df = taz_gdf.join(delta_total_transit_trips_df.set_index('omxid'), on='om
 # Make a static map of total transit trips by origin TAZ
 joined_df.plot("delta_total_transit", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Change in Total Transit Trips by Origin TAZ')
+plt.show()
 
 
 # In[21]:
