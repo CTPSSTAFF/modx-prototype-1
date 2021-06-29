@@ -142,7 +142,7 @@ plt.title('Speed in AM')
 plt.show()
 
 
-# In[42]:
+# In[46]:
 
 
 # Render an interactive folium map of AM speed
@@ -157,10 +157,18 @@ m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 #
 def colorscale(speed):
-    if (speed < 40.0):
-        retval = '#ff0000'
+    if (speed > 50.0):
+        retval = '#yellow'
+    elif (speed > 40.0):
+        retval = '#goldenrod'
+    elif (speed > 30.0):
+        retval = '#e56a5d'
+    elif (speed > 20.0):
+        retval = '#c13b82'
+    elif (speed > 10.0):
+        retval = '#8405a7'
     else:
-        retval = '#00ff00'
+        retval = '#3c0493'
     #
     return retval
 #
@@ -199,10 +207,50 @@ plt.title('Daily Total Flow (volume)')
 plt.show()
 
 
-# In[ ]:
+# In[48]:
 
 
 # TBD: Make an interactive folium map of total daily flow (volume) during the AM period
+# 
+# model_region_center = [42.27, -71.73]
+#
+# For now, we'll use a "canned center value"
+# TBD: compute center from GeoJSON
+#
+center = [42.38439, -71.05103]
+m = folium.Map(location=center, zoom_start=12)
+links_geojson = open(out_geojson_fn).read()
+#
+# *** TBD: This colorscale function needs more work
+#
+def colorscale(flow):
+    if (flow > 120000.0):
+        retval = '#yellow'
+    elif (flow > 100000.0):
+        retval = '#goldenrod'
+    elif (flow > 80000.0):
+        retval = '#e56a5d'
+    elif (flow > 60000.0):
+        retval = '#c13b82'
+    elif (flow > 40000.0):
+        retval = '#8405a7'
+    else:
+        retval = '#3c0493'
+    #
+    return retval
+#
+def my_style_function(feature):
+    flow = feature['properties']['Tot_Flow_daily']
+    return {
+        'opacity': 1.0,
+        'color': colorscale(flow)
+    }
+#
+folium.GeoJson(links_geojson,
+               style_function=my_style_function).add_to(m)
+
+#
+m
 
 
 # In[ ]:
@@ -217,12 +265,6 @@ plt.show()
 
 
 
-# In[ ]:
-
-
-# Make a static map of the volume-to-capacity ratio during the AM period
-
-
 # In[44]:
 
 
@@ -232,10 +274,50 @@ plt.title('Volume/Capacity Ratio')
 plt.show()
 
 
-# In[ ]:
+# In[49]:
 
 
 # Make an interactive folium map of the volume-to-capacity ratio during the AM period
+# 
+# model_region_center = [42.27, -71.73]
+#
+# For now, we'll use a "canned center value"
+# TBD: compute center from GeoJSON
+#
+center = [42.38439, -71.05103]
+m = folium.Map(location=center, zoom_start=12)
+links_geojson = open(out_geojson_fn).read()
+#
+# *** TBD: This colorscale function needs more work
+#
+def colorscale(voc):
+    if (voc > 1.75):
+        retval = '#yellow'
+    elif (voc > 1.5):
+        retval = '#goldenrod'
+    elif (voc > 1.0):
+        retval = '#e56a5d'
+    elif (voc > 0.75):
+        retval = '#c13b82'
+    elif (voc > 0.5):
+        retval = '#8405a7'
+    else:
+        retval = '#3c0493'
+    #
+    return retval
+#
+def my_style_function(feature):
+    voc = feature['properties']['VOC_am']
+    return {
+        'opacity': 1.0,
+        'color': colorscale(voc)
+    }
+#
+folium.GeoJson(links_geojson,
+               style_function=my_style_function).add_to(m)
+
+#
+m
 
 
 # In[ ]:
