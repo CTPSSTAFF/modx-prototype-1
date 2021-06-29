@@ -133,58 +133,7 @@ out_geojson_fn = my_sandbox_dir + 'temp_geojson.geojson'
 join_df.to_file(out_geojson_fn, driver='GeoJSON')
 
 
-# In[28]:
-
-
-# Attempt to render a folium map
-# 
-# model_region_center = [42.27, -71.73]
-#
-# For now, we'll use a "canned center value" - TBD: compute center from GeoJSON
-center = [42.38439, -71.05103]
-m = folium.Map(location=center, zoom_start=12)
-links_geojson = open(out_geojson_fn).read()
-folium.GeoJson(links_geojson).add_to(m)
-m
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
+# In[41]:
 
 
 # Make a static map of speed during the AM period
@@ -193,19 +142,79 @@ plt.title('Speed in AM')
 plt.show()
 
 
+# In[42]:
+
+
+# Render an interactive folium map of AM speed
+# 
+# model_region_center = [42.27, -71.73]
+#
+# For now, we'll use a "canned center value"
+# TBD: compute center from GeoJSON
+#
+center = [42.38439, -71.05103]
+m = folium.Map(location=center, zoom_start=12)
+links_geojson = open(out_geojson_fn).read()
+#
+def colorscale(speed):
+    if (speed < 40.0):
+        retval = '#ff0000'
+    else:
+        retval = '#00ff00'
+    #
+    return retval
+#
+def my_style_function(feature):
+    speed = feature['properties']['Speed_am']
+    return {
+        'opacity': 1.0,
+        'color': colorscale(speed)
+    }
+#
+folium.GeoJson(links_geojson,
+               style_function=my_style_function).add_to(m)
+
+#
+m
+
+
 # In[ ]:
 
 
-# Make an interactive bar chart of speed for each link in the AM period
+# TBD: Make an interactive bar chart of speed for each link in the AM period
 
 
 # In[ ]:
 
 
-# Make a static map of total daily flow (volume) ratio during the AM period
+
+
+
+# In[43]:
+
+
+# Make a static map of total daily flow (volume) during the AM period
 join_df.plot("Tot_Flow_daily", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Daily Total Flow (volume)')
 plt.show()
+
+
+# In[ ]:
+
+
+# TBD: Make an interactive folium map of total daily flow (volume) during the AM period
+
+
+# In[ ]:
+
+
+# TBD: Make an interactive bar chat of total daily flow (volume) during the AM period
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
@@ -214,19 +223,25 @@ plt.show()
 # Make a static map of the volume-to-capacity ratio during the AM period
 
 
-# In[ ]:
+# In[44]:
 
 
-# Make a static map of total daily flow (volume) ratio during the AM period
-join_df.plot("Tot_Flow_daily", figsize=(10.0,8.0), cmap='plasma', legend=True)
-plt.title('Daily Total Flow (volume)')
+# Make a static map of the volume-to-capacity ratio during the AM period
+join_df.plot("VOC_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.title('Volume/Capacity Ratio')
 plt.show()
 
 
 # In[ ]:
 
 
-# Make an interactive bar chart of total daily flow (volume) by link
+# Make an interactive folium map of the volume-to-capacity ratio during the AM period
+
+
+# In[ ]:
+
+
+# Make an interactive bar chart of the volume-to-capacity ratio during the AM period
 
 
 # In[ ]:
