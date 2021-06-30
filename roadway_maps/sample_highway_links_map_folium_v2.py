@@ -185,7 +185,11 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function).add_to(m)
+               style_function=my_style_function,
+               tooltip=folium.features.GeoJsonTooltip(
+                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
+                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
+               )).add_to(m)
 
 #
 m
@@ -268,7 +272,11 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function).add_to(m)
+               style_function=my_style_function,
+               tooltip=folium.features.GeoJsonTooltip(
+                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
+                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
+               )).add_to(m)
 
 #
 m
@@ -332,7 +340,11 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function).add_to(m)
+               style_function=my_style_function,
+               tooltip=folium.features.GeoJsonTooltip(
+                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
+                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
+               )).add_to(m)
 
 #
 m
