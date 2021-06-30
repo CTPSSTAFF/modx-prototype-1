@@ -4,6 +4,9 @@
 # In[13]:
 
 
+# *** DO NOT USED THIS NOTEBOOK -- REPLACED BY sample_highway_links_map_folium_v2.ipyb
+# -- BK 06/30/20221
+#
 # Notebook to display data for selected highway links flow, V/C, and speeds using the folium library.
 # Data was previously calculated by sample_highway_links_report.ipypnb, and saved in CSV format.
 
