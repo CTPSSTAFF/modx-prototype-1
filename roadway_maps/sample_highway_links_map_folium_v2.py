@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[20]:
 
 
 # Notebook to display data for selected highway links flow, V/C, and speeds using the folum library.
@@ -21,76 +21,77 @@ import matplotlib.pyplot as plt
 import jenkspy
 import folium
 import bokeh
+import geoviews
 import hvplot.pandas
 
 
-# In[4]:
+# In[21]:
 
 
 get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
-# In[5]:
+# In[22]:
 
 
 # Directory in which user's output CSV report data was saved - it will now be our *input* directory
 my_sandbox_dir = r'S:/my_modx_output_dir/'
 
 
-# In[6]:
+# In[23]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[7]:
+# In[24]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[8]:
+# In[25]:
 
 
 # Fully-qualified pathname to CSV file
 fq_csv_fn = my_sandbox_dir + csv_fn
 
 
-# In[9]:
+# In[26]:
 
 
 links_data_df = pd.read_csv(fq_csv_fn, delimiter=',')
 
 
-# In[10]:
+# In[27]:
 
 
 links_data_df
 
 
-# In[11]:
+# In[28]:
 
 
 list(links_data_df.columns)
 
 
-# In[12]:
+# In[29]:
 
 
 # List of the IDs for the model network links for which data is reported in the input CSV file
 links_list = links_data_df['ID1'].to_list()
 
 
-# In[13]:
+# In[30]:
 
 
 # Directory in which the spatial data for the model network links is stored (both shapefile and GeoJSON formats)
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[14]:
+# In[31]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -101,33 +102,33 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[15]:
+# In[32]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[16]:
+# In[33]:
 
 
 filtered_links_gdf
 
 
-# In[17]:
+# In[34]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[18]:
+# In[35]:
 
 
 join_df
 
 
-# In[19]:
+# In[36]:
 
 
 # Export the geo-dataframe to GeoJSON format, so it can be used with the folium library
@@ -135,7 +136,7 @@ out_geojson_fn = my_sandbox_dir + 'temp_geojson.geojson'
 join_df.to_file(out_geojson_fn, driver='GeoJSON')
 
 
-# In[20]:
+# In[37]:
 
 
 # Make a static map of speed during the AM period
@@ -144,7 +145,7 @@ plt.title('Speed in AM')
 plt.show()
 
 
-# In[27]:
+# In[38]:
 
 
 # Render an interactive folium map of AM speed
@@ -190,10 +191,34 @@ folium.GeoJson(links_geojson,
 m
 
 
+# In[44]:
+
+
+# Make an interactive bar chart of speed for each link in the AM period
+# Note hack here: Even though the 'geoviews' package has been installed in the environment running this notebook
+# and has been imported into this notebook an attempt to generate a horizontal bar-chart from the "join_df" dataframe
+# consistently fails with the error message:
+#     In order to use geo-related features the geoviews library must be available. It can be installed with:
+#         conda install -c pyviz geoviews
+#
+# To work around this problem and use the hvplot library to generate an interactive bar chart of the data,
+# we will create a copy of the "join_df" dataframe with no 'column'. Sad, but true.
+#
+# With apologies to Jack Webb...
+just_the_facts_maam_df = join_df.filter(['ID','Speed_am','VOC_am', 'Tot_Flow_daily', 'STREETNAME'], axis=1)
+just_the_facts_maam_df.hvplot.barh(x="ID",
+                                   xlabel="Link ID",
+                                   y='Speed_am',
+                                   ylabel='AM Speed',
+                                   yformatter= "%f",
+                                   hover_cols='all',
+                                   height=1000)
+
+
 # In[ ]:
 
 
-# TBD: Make an interactive bar chart of speed for each link in the AM period
+
 
 
 # In[ ]:
