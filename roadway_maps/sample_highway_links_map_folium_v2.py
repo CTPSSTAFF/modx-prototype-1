@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[3]:
 
 
 # Notebook to display data for selected highway links flow, V/C, and speeds using the folum library.
@@ -16,79 +16,81 @@ import openmatrix as omx
 import numpy as np
 import pandas as pd
 import geopandas as gp
+from io import StringIO
 import matplotlib.pyplot as plt
 import jenkspy
 import folium
-# TBD: Add hvplot library for interactive bar charts
+import bokeh
+import hvplot.pandas
 
 
-# In[7]:
+# In[4]:
 
 
 get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
-# In[8]:
+# In[5]:
 
 
 # Directory in which user's output CSV report data was saved - it will now be our *input* directory
 my_sandbox_dir = r'S:/my_modx_output_dir/'
 
 
-# In[9]:
+# In[6]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[10]:
+# In[7]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[11]:
+# In[8]:
 
 
 # Fully-qualified pathname to CSV file
 fq_csv_fn = my_sandbox_dir + csv_fn
 
 
-# In[12]:
+# In[9]:
 
 
 links_data_df = pd.read_csv(fq_csv_fn, delimiter=',')
 
 
-# In[13]:
+# In[10]:
 
 
 links_data_df
 
 
-# In[14]:
+# In[11]:
 
 
 list(links_data_df.columns)
 
 
-# In[15]:
+# In[12]:
 
 
 # List of the IDs for the model network links for which data is reported in the input CSV file
 links_list = links_data_df['ID1'].to_list()
 
 
-# In[16]:
+# In[13]:
 
 
 # Directory in which the spatial data for the model network links is stored (both shapefile and GeoJSON formats)
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[17]:
+# In[14]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -99,33 +101,33 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[18]:
+# In[15]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[19]:
+# In[16]:
 
 
 filtered_links_gdf
 
 
-# In[20]:
+# In[17]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[21]:
+# In[18]:
 
 
 join_df
 
 
-# In[22]:
+# In[19]:
 
 
 # Export the geo-dataframe to GeoJSON format, so it can be used with the folium library
@@ -133,7 +135,7 @@ out_geojson_fn = my_sandbox_dir + 'temp_geojson.geojson'
 join_df.to_file(out_geojson_fn, driver='GeoJSON')
 
 
-# In[41]:
+# In[20]:
 
 
 # Make a static map of speed during the AM period
@@ -142,7 +144,7 @@ plt.title('Speed in AM')
 plt.show()
 
 
-# In[46]:
+# In[27]:
 
 
 # Render an interactive folium map of AM speed
@@ -156,19 +158,20 @@ center = [42.38439, -71.05103]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 #
-def colorscale(speed):
+# Color scale source: https://colorbrewer2.org/#type=diverging&scheme=RdYlGn&n=6 (inverted)
+def speed_colorscale(speed):
     if (speed > 50.0):
-        retval = '#yellow'
+        retval = '#1a9850'
     elif (speed > 40.0):
-        retval = '#goldenrod'
+        retval = '#91cf60'
     elif (speed > 30.0):
-        retval = '#e56a5d'
+        retval = '#d9ef8b'
     elif (speed > 20.0):
-        retval = '#c13b82'
+        retval = '#fee08b'
     elif (speed > 10.0):
-        retval = '#8405a7'
+        retval = '#fc8d59'
     else:
-        retval = '#3c0493'
+        retval = '#d73027'
     #
     return retval
 #
@@ -176,7 +179,8 @@ def my_style_function(feature):
     speed = feature['properties']['Speed_am']
     return {
         'opacity': 1.0,
-        'color': colorscale(speed)
+        'weight' : 5.0,
+        'color': speed_colorscale(speed)
     }
 #
 folium.GeoJson(links_geojson,
@@ -207,10 +211,10 @@ plt.title('Daily Total Flow (volume)')
 plt.show()
 
 
-# In[48]:
+# In[30]:
 
 
-# TBD: Make an interactive folium map of total daily flow (volume) during the AM period
+# Make an interactive folium map of total daily flow (volume) during the AM period
 # 
 # model_region_center = [42.27, -71.73]
 #
@@ -221,21 +225,22 @@ center = [42.38439, -71.05103]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 #
-# *** TBD: This colorscale function needs more work
-#
-def colorscale(flow):
+# Colorscale source = https://colorbrewer2.org/#type=sequential&scheme=Reds&n=7 (inverted)
+def flow_colorscale(flow):
     if (flow > 120000.0):
-        retval = '#yellow'
+        retval = '#99000d'
     elif (flow > 100000.0):
-        retval = '#goldenrod'
+        retval = '#cb181d'
     elif (flow > 80000.0):
-        retval = '#e56a5d'
+        retval = '#ef3b2c'
     elif (flow > 60000.0):
-        retval = '#c13b82'
+        retval = '#fb6a4a'
     elif (flow > 40000.0):
-        retval = '#8405a7'
+        retval = '#fc9272'
+    elif (flow > 20000.0):
+        retval = '#fcbba1'
     else:
-        retval = '#3c0493'
+        retval = '#fee5d9'
     #
     return retval
 #
@@ -243,7 +248,8 @@ def my_style_function(feature):
     flow = feature['properties']['Tot_Flow_daily']
     return {
         'opacity': 1.0,
-        'color': colorscale(flow)
+        'weight' : 5.0,
+        'color': flow_colorscale(flow)
     }
 #
 folium.GeoJson(links_geojson,
@@ -265,7 +271,7 @@ m
 
 
 
-# In[44]:
+# In[31]:
 
 
 # Make a static map of the volume-to-capacity ratio during the AM period
@@ -274,7 +280,7 @@ plt.title('Volume/Capacity Ratio')
 plt.show()
 
 
-# In[49]:
+# In[32]:
 
 
 # Make an interactive folium map of the volume-to-capacity ratio during the AM period
@@ -287,22 +293,17 @@ plt.show()
 center = [42.38439, -71.05103]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
-#
-# *** TBD: This colorscale function needs more work
-#
-def colorscale(voc):
-    if (voc > 1.75):
-        retval = '#yellow'
-    elif (voc > 1.5):
-        retval = '#goldenrod'
+# 
+# # Colorscale source = https://colorbrewer2.org/#type=sequential&scheme=Blues&n=4 (inverted)
+def voc_colorscale(voc):
+    if (voc > 1.5):
+        retval = '#2171b5'
     elif (voc > 1.0):
-        retval = '#e56a5d'
-    elif (voc > 0.75):
-        retval = '#c13b82'
+        retval = '#6baed6'
     elif (voc > 0.5):
-        retval = '#8405a7'
+        retval = '#bdd7e7'
     else:
-        retval = '#3c0493'
+        retval = '#eff3ff'
     #
     return retval
 #
@@ -310,7 +311,8 @@ def my_style_function(feature):
     voc = feature['properties']['VOC_am']
     return {
         'opacity': 1.0,
-        'color': colorscale(voc)
+        'weight' : 5.0,
+        'color': voc_colorscale(voc)
     }
 #
 folium.GeoJson(links_geojson,
