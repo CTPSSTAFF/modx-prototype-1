@@ -11,7 +11,7 @@
 #           and then load the GeoJSON file into a folium map.
 #
 # Tabular data was previously calculated by sample_highway_links_report.ipypnb, and saved in CSV format.
-
+#
 import openmatrix as omx
 import numpy as np
 import pandas as pd
@@ -195,6 +195,7 @@ m
 
 
 # Make an interactive bar chart of speed for each link in the AM period
+#
 # Note hack here: Even though the 'geoviews' package has been installed in the environment running this notebook
 # and has been imported into this notebook an attempt to generate a horizontal bar-chart from the "join_df" dataframe
 # consistently fails with the error message:
@@ -205,6 +206,7 @@ m
 # we will create a copy of the "join_df" dataframe with no 'column'. Sad, but true.
 #
 # With apologies to Jack Webb...
+#
 just_the_facts_maam_df = join_df.filter(['ID','Speed_am','VOC_am', 'Tot_Flow_daily', 'STREETNAME'], axis=1)
 just_the_facts_maam_df.hvplot.barh(x="ID",
                                    xlabel="Link ID",
@@ -213,18 +215,6 @@ just_the_facts_maam_df.hvplot.barh(x="ID",
                                    yformatter= "%f",
                                    hover_cols='all',
                                    height=1000)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # In[43]:
@@ -284,16 +274,17 @@ folium.GeoJson(links_geojson,
 m
 
 
-# In[ ]:
+# In[45]:
 
 
-# TBD: Make an interactive bar chat of total daily flow (volume) during the AM period
-
-
-# In[ ]:
-
-
-
+# Make an interactive bar chat of total daily flow (volume) during the AM period
+just_the_facts_maam_df.hvplot.barh(x="ID",
+                                   xlabel="Link ID",
+                                   y='Tot_Flow_daily',
+                                   ylabel='Daily Total Flow',
+                                   yformatter= "%f",
+                                   hover_cols='all',
+                                   height=1000)
 
 
 # In[31]:
@@ -347,10 +338,17 @@ folium.GeoJson(links_geojson,
 m
 
 
-# In[ ]:
+# In[46]:
 
 
 # Make an interactive bar chart of the volume-to-capacity ratio during the AM period
+just_the_facts_maam_df.hvplot.barh(x="ID",
+                                   xlabel="Link ID",
+                                   y='VOC_am',
+                                   ylabel='AM Volume/Capacity Ratio',
+                                   yformatter= "%f",
+                                   hover_cols='all',
+                                   height=1000)
 
 
 # In[ ]:
