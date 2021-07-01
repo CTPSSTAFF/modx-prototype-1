@@ -224,7 +224,3 @@ joined_df.hvplot(c='transit_total',
 
 
 # In[ ]:
-
-
-
-
