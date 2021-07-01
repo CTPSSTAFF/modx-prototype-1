@@ -312,6 +312,13 @@ joined_df.plot("total_trips", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Trips by Origin TAZ')
 plt.show()
 
+# Make an interactive map to total trips by origin TAZ
+joined_df.hvplot(c='total_trips', 
+                 geo=True, 
+                 hover_cols=['id', 'town_state', 'total_trips'], 
+                 clabel='Total Trips', 
+                 cmap='plasma',
+                 frame_height=500).opts(title='Total Trips by Origin TAZ')
 
 # In[32]:
 
@@ -320,6 +327,16 @@ plt.show()
 joined_df.plot("total_auto", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Auto Trips by Origin TAZ')
 plt.show()
+
+# Make an interactive map to total auto trips by origin TAZ
+joined_df.hvplot(c='total_auto', 
+                      geo=True, 
+                      hover_cols=['id', 'town_state', 'total_auto'], 
+                      clabel='Total Auto Trips', 
+                      cmap='plasma',
+                      frame_height=500).opts(title='Total Auto Trips by Origin TAZ')
+
+
 
 
 # In[33]:
@@ -330,6 +347,14 @@ joined_df.plot("total_truck", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Truck Trips by Origin TAZ')
 plt.show()
 
+# Make an interactive map to total truck trips by origin TAZ
+joined_df.hvplot(c='total_truck', 
+                      geo=True, 
+                      hover_cols=['id', 'town_state', 'total_truck'], 
+                      clabel='Total Truck Trips', 
+                      cmap='plasma',
+                      frame_height=500).opts(title='Total Truck Trips by Origin TAZ')
+
 
 # In[34]:
 
@@ -339,6 +364,14 @@ joined_df.plot("total_nm", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Non-motorized Trips by Origin TAZ')
 plt.show()
 
+# Make an interactive map to total non-motorized trips by origin TAZ
+joined_df.hvplot(c='total_nm', 
+                      geo=True, 
+                      hover_cols=['id', 'town_state', 'total_nm'], 
+                      clabel='Total Non-motorized Trips', 
+                      cmap='plasma',
+                      frame_height=500).opts(title='Total Non-motorized Trips by Origin TAZ')
+
 
 # In[35]:
 
@@ -347,6 +380,14 @@ plt.show()
 joined_df.plot("total_transit", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Transit Trips by Origin TAZ')
 plt.show()
+
+# Make an interactive map to total transit trips by origin TAZ
+joined_df.hvplot(c='total_transit', 
+                      geo=True, 
+                      hover_cols=['id', 'town_state', 'total_transit'], 
+                      clabel='Total Transit Trips', 
+                      cmap='plasma',
+                      frame_height=500).opts(title='Total Transit Trips by Origin TAZ')
 
 
 # In[36]:
@@ -374,13 +415,5 @@ temp_df.plot.bar(x='modes', y='total_trips', ylabel='Number of Trips x 10**6', t
 # In[94]:
 
 
-# (Attempt to) Make an interactive map of total trips by origin TAZ
-# *** WARNING: DO NOT RUN - at least on a PC with 8 GB or less of RAM! ***
-#
-# NOTE: The following statement does NOT RENDER the requested map.
-#       It does not trigger an error reported in this Jupyter notebook, 
-#       but appears to crash the kernel running this Jupyter notebook.
-# 
-# joined_df.hvplot(c='total_trips', hover_cols=['id', 'town', 'total_trips'], 
-#                  clabel='Total Trips', cmap='plasma').opts(title='Total Trips by Origin TAZ')
+
 
