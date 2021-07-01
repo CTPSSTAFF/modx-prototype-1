@@ -15,41 +15,53 @@ import bokeh
 import xarray as xr
 import hvplot.pandas
 import hvplot.xarray
-import cartopy.crs as ccrs
-
-
-# %matplotlib notebook
-
-# In[2]:
-
-
-# Base directory for MoDX output for "base year" model results.
-base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
 
 
 # In[3]:
 
 
-# Base directory for MoDX output for "comparison scenario" model results.
-# NOTE: This variable is unused in the current version of this notebook.
-comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
+get_ipython().run_line_magic('matplotlib', 'notebook')
 
+
+# %matplotlib notebook
 
 # In[4]:
 
 
-taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
+# Root directory for MoDX output for "base year" model results.
+#
+base_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
+#
+# Root directory for MoDX output for "comparison scenario" model results.
+# 
+comparison_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
 # In[5]:
 
 
-# trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
-# The real McCoy - where things should go, and will eventually go
-tt_dir = base_dir + 'out/'
+# ===>>>USER INPUT REQUIRED: <<<===
+#
+# Supply path to root directory of scenario to use for the current run of this notebook:
+# 
+home_dir = base_scenario_dir
 
 
 # In[6]:
+
+
+taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
+
+
+# In[7]:
+
+
+# trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
+# The real McCoy - where things should go, and will eventually go
+tt_dir = home_dir + 'out/'
+
+
+# In[8]:
 
 
 # trip tables OMX file (matrices)
@@ -63,13 +75,13 @@ trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'nt'  : omx.open_file(tt_nt, 'r') }
 
 
-# In[7]:
+# In[9]:
 
 
 num_tazes = trip_tables['am'].shape()[0]
 
 
-# In[8]:
+# In[10]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods (these *should* be the same)
@@ -79,7 +91,7 @@ taz_to_omxid_pm = trip_tables['pm'].mapping('ID')
 taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 
 
-# In[9]:
+# In[11]:
 
 
 # We'll assume that the mapping from TAZ ID to OMX ID doesn't vary by time period.
@@ -90,7 +102,7 @@ taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[10]:
+# In[12]:
 
 
 # Function: tt_total_for_mode
@@ -114,7 +126,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[11]:
+# In[13]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -129,7 +141,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[12]:
+# In[14]:
 
 
 # Truck mode
@@ -149,7 +161,7 @@ light_total = light.sum(axis=1)
 truck_total = heavy_total + heavy_haz_total + medium_total + medium_haz_total + light_total
 
 
-# In[13]:
+# In[15]:
 
 
 # Build a data frame, indexed by omxid, containing the total of the truck trips originating in each TAZ
@@ -159,7 +171,7 @@ total_truck_trips_df['omxid'] = total_truck_trips_df.index
 total_truck_trips_df.set_index('omxid')
 
 
-# In[14]:
+# In[16]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
@@ -168,7 +180,7 @@ taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[15]:
+# In[17]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -176,14 +188,14 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[16]:
+# In[18]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
 joined_df = taz_gdf.join(total_truck_trips_df.set_index('omxid'), on='omxid')
 
 
-# In[17]:
+# In[19]:
 
 
 # Make a static map of total trips by origin TAZ
@@ -192,12 +204,15 @@ plt.title('Total Truck Trips by Origin TAZ')
 plt.show()
 
 
-# In[18]:
+# In[21]:
 
 
 # Make an interactive map of the above
-joined_df.hvplot(c='truck_total', geo=True, hover_cols=['id', 'town', 'truck_total'], 
-                 clabel='Total Trips', cmap='plasma').opts(title='Total Truck Trips by Origin TAZ')
+joined_df.hvplot(c='truck_total', 
+                 geo=True, 
+                 hover_cols=['id', 'town', 'truck_total'], 
+                 clabel='Total Trips', cmap='plasma',
+                 frame_height=500).opts(title='Total Truck Trips by Origin TAZ')
 
 
 # In[ ]:
