@@ -15,22 +15,28 @@ import bokeh
 import xarray as xr
 import hvplot.pandas
 import hvplot.xarray
-import cartopy.crs as ccrs
 
 
 # In[2]:
 
 
-# Base directory for MoDX output for "base year" model results.
-base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
+# Root directory for MoDX output for "base year" model results.
+#
+base_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
+#
+# Root directory for MoDX output for "comparison scenario" model results.
+# 
+comparison_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
 # In[3]:
 
 
-# Base directory for MoDX output for "comparison scenario" model results.
-# NOTE: This variable is unused in the current version of this notebook.
-comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
+# ===>>>USER INPUT REQUIRED: <<<===
+#
+# Supply path to root directory of scenario to use for the current run of this notebook:
+# 
+home_dir = base_scenario_dir
 
 
 # In[4]:
@@ -44,7 +50,7 @@ taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 
 # trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
 # The real McCoy - where things should go, and will eventually go
-tt_dir = base_dir + 'out/'
+tt_dir = home_dir + 'out/'
 
 
 # In[6]:
@@ -199,108 +205,38 @@ external_taz_gdf = joined_df[joined_df['id'] >= first_external_taz]
 external_taz_gdf
 
 
-# In[27]:
+# In[24]:
 
 
 # Make a static horizontal bar chart of the data
-temp_df = external_taz_gdf[['id', 'town_state', 'sum_all_modes_by_origin']]
+temp_df = external_taz_gdf[['id', 'town_state','sum_all_modes_by_origin']]
 temp_df = temp_df.rename(columns={'sum_all_modes_by_origin' : 'total_demand'})
 #
 plt.rcParams["figure.figsize"] = (10,20)
 #
-temp_df.plot.barh(x='town_state', y='total_demand', 
-                  ylabel='Number of Trips', title='Number of Trips from External TAZes')
+temp_df.plot.barh(x='id', 
+                  y='total_demand', 
+                  xlabel='TAZ ID',
+                  ylabel='Number of Trips', 
+                  title='Number of Trips from External TAZes')
 
 
-# In[28]:
+# In[25]:
 
 
 # Make an interactive bar chart of the same information 
-temp_df.hvplot.barh(x='town_state', xlabel='Origin', 
-                    y='total_demand', ylabel='Total Demand', xformatter="%f", height=1000)
+temp_df.hvplot.barh(x='id', 
+                    xlabel='Origin TAZ', 
+                    y='total_demand', 
+                    ylabel='Total Demand', 
+                    xformatter="%f", 
+                    hover_cols='all',
+                    frame_width=500,
+                    frame_height=1000)
 
 
 # In[ ]:
 
 
 
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[30]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-# Make a bar chart 
-temp_df.plot.bar(x='modes', y='total_trips', ylabel='Number of Trips x 10**6', title='Mode Share')
 
