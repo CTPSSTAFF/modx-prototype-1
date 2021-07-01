@@ -13,45 +13,51 @@ import bokeh
 import xarray as xr
 import hvplot.pandas
 import hvplot.xarray
-import cartopy.crs as ccrs
-
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
 # In[2]:
 
 
-# Base directory for MoDX output for "base year" model results.
-base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
+get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
 # In[3]:
 
 
-# Base directory for MoDX output for "comparison scenario" model results.
-# NOTE: This variable is unused in the current version of this notebook.
-comparison_base_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
+# Root directory for MoDX output for "base year" model results.
+#
+base_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2016 Scen 00_08March2019_MoDXoutputs/'
+#
+# Root directory for MoDX output for "comparison scenario" model results.
+# 
+comparison_scenario_dir = r'G:/Regional_Modeling/1A_Archives/LRTP_2018/2040 NB Scen 01_MoDXoutputs/'
 
 
 # In[4]:
 
 
-taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
+# ===>>>USER INPUT REQUIRED: <<<===
+#
+# Supply path to root directory of scenario to use for the current run of this notebook:
+# 
+home_dir = base_scenario_dir
 
 
 # In[5]:
 
 
-# trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
-# The real McCoy - where things should go, and will eventually go
-tt_dir = base_dir + 'out/'
+taz_shapefile_base_dir = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
 
 
 # In[6]:
+
+
+# trip_tables directory - this really "should" be a subdirectory of the base directory, but is isn't currently.
+# The real McCoy - where things should go, and will eventually go
+tt_dir = home_dir + 'out/'
+
+
+# In[7]:
 
 
 # trip tables OMX file (matrices)
@@ -65,48 +71,48 @@ trip_tables = { 'am' :  omx.open_file(tt_am, 'r'),
                 'nt'  : omx.open_file(tt_nt, 'r') }
 
 
-# In[7]:
+# In[8]:
 
 
 # Sanity check #1
 trip_tables['am'].list_matrices()
 
 
-# In[8]:
+# In[9]:
 
 
 # Sanity-check #2
 trip_tables['am'].list_mappings()
 
 
-# In[9]:
+# In[10]:
 
 
 # Sanity-check #3a
 trip_tables['am'].shape()
 
 
-# In[10]:
+# In[11]:
 
 
 # Sanity-check #3b
 trip_tables['am'].shape() == trip_tables['md'].shape() == trip_tables['pm'].shape() == trip_tables['nt'].shape()
 
 
-# In[11]:
+# In[12]:
 
 
 # Sanity-check #3c
 trip_tables['am'].list_mappings()
 
 
-# In[12]:
+# In[13]:
 
 
 num_tazes = trip_tables['am'].shape()[0]
 
 
-# In[13]:
+# In[14]:
 
 
 # Mapping from TAZ-ID to OMX index for the 4 periods (these *should* be the same)
@@ -116,7 +122,7 @@ taz_to_omxid_pm = trip_tables['pm'].mapping('ID')
 taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 
 
-# In[14]:
+# In[15]:
 
 
 # We'll assume that the mapping from TAZ ID to OMX ID doesn't vary by time period.
@@ -127,39 +133,10 @@ taz_to_omxid_nt =  trip_tables['nt'].mapping('ID')
 taz_to_omxid = taz_to_omxid_am
 
 
-# In[15]:
-
-
-# Get the trip tables for the SOV mode
-tt_am_sov = trip_tables['am']['SOV']
-tt_md_sov = trip_tables['md']['SOV']
-tt_pm_sov = trip_tables['pm']['SOV']
-tt_nt_sov =  trip_tables['nt']['SOV']
-# And turn them into numpy arrays, so we can work with them
-tt_am_sov_np = np.array(tt_am_sov)
-tt_md_sov_np = np.array(tt_md_sov)
-tt_pm_sov_np = np.array(tt_pm_sov)
-tt_nt_sov_np = np.array(tt_nt_sov)
-
-
-# In[16]:
-
-
-# Form the sum of SOV demand from TAZ[i] to TAZ[j], across all time periods
-tt_TOTAL_sov_np = tt_am_sov_np + tt_md_sov_np + tt_pm_sov + tt_nt_sov
-
-
 # In[17]:
 
 
-# Form the sum of SOV demand from all TAZ[i], accross all TAZ destinations (j)
-tt_TOTAL_ORIGIN_sov_np = tt_TOTAL_sov_np.sum(axis=1)
-
-
-# In[18]:
-
-
-# Function that genericizes the computation carried out for the SOV mode, above.
+# Function: tt_total_for_mode
 #
 # Summary: Return the total travel demand, over all i and j, from TAZ[i] to TAZ[j] for the specified mode.
 #
@@ -180,15 +157,7 @@ def tt_total_for_mode(tts, mode):
 # end_def tt_total_for_mode
 
 
-# In[19]:
-
-
-# Sanity check that the above function works identically to the in-line code
-my_tt_TOTAL_sov_np = tt_total_for_mode(trip_tables, 'SOV')
-np.equal(tt_TOTAL_sov_np, my_tt_TOTAL_sov_np)
-
-
-# In[20]:
+# In[18]:
 
 
 # Function to generate the calculation to total demand for a list of modes.
@@ -203,7 +172,7 @@ def tt_totals_for_mode_list(tts, mode_list):
 # end_def tt_total_for_mode_list
 
 
-# In[21]:
+# In[19]:
 
 
 # Auto mode
@@ -216,7 +185,7 @@ hov_total = hov.sum(axis=1)
 auto_total = sov_total + hov_total
 
 
-# In[22]:
+# In[20]:
 
 
 # Truck mode
@@ -236,7 +205,7 @@ light_total = light.sum(axis=1)
 truck_total = heavy_total + heavy_haz_total + medium_total + medium_haz_total + light_total
 
 
-# In[23]:
+# In[21]:
 
 
 # Non-motorized mode
@@ -249,7 +218,7 @@ bike_total = bike.sum(axis=1)
 nm_total = walk_total + bike_total
 
 
-# In[24]:
+# In[22]:
 
 
 # Transit mode
@@ -277,14 +246,14 @@ wat_total = wat.sum(axis=1)
 transit_total = dat_boat_total + det_boat_total + dat_cr_total + det_cr_total +               dat_lb_total + det_lb_total + dat_rt_total + det_rt_total + wat_total
 
 
-# In[25]:
+# In[23]:
 
 
 # Grand grand total (i.e., across all modes) of demand by TAZ of origin
 grand_total = auto_total + truck_total + nm_total + transit_total
 
 
-# In[26]:
+# In[24]:
 
 
 # Build a data frame, indexed by omxid, containing the total of the following kinds of trips originating in each TAZ:
@@ -299,7 +268,7 @@ total_trips_df['omxid'] = total_trips_df.index
 total_trips_df.set_index('omxid')
 
 
-# In[27]:
+# In[25]:
 
 
 # Load the candidate canonical TAZ shapefile as a geopands dataframe.
@@ -308,7 +277,7 @@ taz_gdf = gp.read_file(taz_shapefile)
 taz_gdf.set_index("id")
 
 
-# In[28]:
+# In[26]:
 
 
 # Add a 'omxid' column to the TAZ geodataframe, in prep for joining with the total trips dataframes.
@@ -316,7 +285,7 @@ taz_gdf.set_index("id")
 taz_gdf['omxid'] = taz_gdf.apply(lambda row: taz_to_omxid[row.id], axis=1)
 
 
-# In[29]:
+# In[27]:
 
 
 # Join the shapefile geodataframe to the total trips dataframe on 'omxid'
@@ -326,13 +295,25 @@ joined_df = taz_gdf.join(total_trips_df.set_index('omxid'), on='omxid')
 # In[30]:
 
 
+# Free as much memory as possible in order to allow the generation of maps and plots to execute
+# as quickly as possible, and in some cases, execute at all
+#
+del all_auto
+del all_truck
+del all_nm 
+del all_transit 
+
+
+# In[31]:
+
+
 # Make a static map of total trips by origin TAZ
 joined_df.plot("total_trips", figsize=(10.0,8.0), cmap='plasma', legend=True)
 plt.title('Total Trips by Origin TAZ')
 plt.show()
 
 
-# In[31]:
+# In[32]:
 
 
 # Make a static map of total auto trips by origin TAZ
@@ -341,7 +322,7 @@ plt.title('Total Auto Trips by Origin TAZ')
 plt.show()
 
 
-# In[32]:
+# In[33]:
 
 
 # Make a static map of total truck trips by origin TAZ
@@ -350,7 +331,7 @@ plt.title('Total Truck Trips by Origin TAZ')
 plt.show()
 
 
-# In[33]:
+# In[34]:
 
 
 # Make a static map of total non-motorized trips by origin TAZ
@@ -359,7 +340,7 @@ plt.title('Total Non-motorized Trips by Origin TAZ')
 plt.show()
 
 
-# In[34]:
+# In[35]:
 
 
 # Make a static map of total transit trips by origin TAZ
@@ -368,7 +349,7 @@ plt.title('Total Transit Trips by Origin TAZ')
 plt.show()
 
 
-# In[35]:
+# In[36]:
 
 
 # Make a static bar chart of number of trips by mode (mode-share)
@@ -383,7 +364,7 @@ temp = { 'modes' : modes, 'total_trips' : tot_trips }
 temp_df = pd.DataFrame(temp)
 
 
-# In[41]:
+# In[37]:
 
 
 # Make a bar chart of mode-share according to origin TAZ
