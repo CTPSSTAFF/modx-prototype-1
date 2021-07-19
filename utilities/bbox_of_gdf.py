@@ -22,3 +22,13 @@ def bbox_of_gdf(gdf):
     retval = { 'minx' : minx, 'miny' : miny, 'maxx' : maxx, 'maxy' : maxy }
     return retval
 # end_def bbox_of_gdf()
+
+# Given a dictonary of the form  'minx', 'miny', 'maxx', 'maxy'} representing a geographic bounding box,
+# return the center point as a dictionary with the keys { 'x' , 'y' }.
+
+def center_of_bbox(bbox):
+    center_x = bbox['minx'] + (bbox['maxx'] - bbox['minx']) / 2
+    center_y = bbox['miny'] + (bbox['maxy'] - bbox['miny']) / 2
+    retval = { 'x' : center_x, 'y' : center_y }
+    return retval
+# end_def center_of_bbox()
