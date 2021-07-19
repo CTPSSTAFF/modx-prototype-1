@@ -5,7 +5,7 @@ import pandas as pd
 import geopandas as gp
 
 # Return the bounding box of all the features in a geo-dataframe.
-# The bounding box is returned as a list of the form [minx, miny, maxx, maxy].
+# The bounding box is returned as a dictionary with the following keys: { 'minx', 'miny', 'maxx', 'maxy'}.
 #
 def bbox_of_gdf(gdf):
     bounds_tuples = gdf['geometry'].map(lambda x: x.bounds)
@@ -19,6 +19,6 @@ def bbox_of_gdf(gdf):
     miny = bounds_df['miny'].min()
     maxx = bounds_df['maxx'].max()
     maxy = bounds_df['maxy'].max()
-    retval = [ minx, miny, maxx, maxy]
+    retval = { 'minx' : minx, 'miny' : miny, 'maxx' : maxx, 'maxy' : maxy }
     return retval
 # end_def bbox_of_gdf()
