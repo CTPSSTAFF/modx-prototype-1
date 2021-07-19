@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[20]:
+# In[4]:
 
 
 # Notebook to display data for selected highway links flow, V/C, and speeds using the folum library.
@@ -25,73 +25,66 @@ import geoviews
 import hvplot.pandas
 
 
-# In[21]:
+# In[5]:
 
 
 get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
-# In[22]:
+# In[6]:
 
 
 # Directory in which user's output CSV report data was saved - it will now be our *input* directory
 my_sandbox_dir = r'S:/my_modx_output_dir/'
 
 
-# In[23]:
+# In[7]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[24]:
-
-
-# Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
-csv_fn = 'links_report_base_scenario.csv'
-
-
-# In[25]:
+# In[8]:
 
 
 # Fully-qualified pathname to CSV file
 fq_csv_fn = my_sandbox_dir + csv_fn
 
 
-# In[26]:
+# In[9]:
 
 
 links_data_df = pd.read_csv(fq_csv_fn, delimiter=',')
 
 
-# In[27]:
+# In[10]:
 
 
 links_data_df
 
 
-# In[28]:
+# In[11]:
 
 
 list(links_data_df.columns)
 
 
-# In[29]:
+# In[12]:
 
 
 # List of the IDs for the model network links for which data is reported in the input CSV file
 links_list = links_data_df['ID1'].to_list()
 
 
-# In[30]:
+# In[13]:
 
 
 # Directory in which the spatial data for the model network links is stored (both shapefile and GeoJSON formats)
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[31]:
+# In[14]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -102,33 +95,85 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[32]:
+# In[15]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[33]:
+# In[16]:
 
 
 filtered_links_gdf
 
 
-# In[34]:
+# In[17]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[35]:
+# In[18]:
 
 
 join_df
 
 
-# In[36]:
+# In[19]:
+
+
+# Return the bounding box of all the features in a geo-dataframe.
+# The bounding box is returned as a dictionary with the following keys: { 'minx', 'miny', 'maxx', 'maxy'}.
+#
+def bbox_of_gdf(gdf):
+    bounds_tuples = gdf['geometry'].map(lambda x: x.bounds)
+    bounds_dicts = []
+    for t in bounds_tuples:
+        temp = { 'minx' : t[0], 'miny' : t[1], 'maxx' : t[2], 'maxy' : t[3] }
+        bounds_dicts.append(temp)
+    # end_for
+    bounds_df = pd.DataFrame(bounds_dicts)
+    minx = bounds_df['minx'].min()
+    miny = bounds_df['miny'].min()
+    maxx = bounds_df['maxx'].max()
+    maxy = bounds_df['maxy'].max()
+    retval = { 'minx' : minx, 'miny' : miny, 'maxx' : maxx, 'maxy' : maxy }
+    return retval
+# end_def bbox_of_gdf()
+
+# Given a dictonary of the form  'minx', 'miny', 'maxx', 'maxy'} representing a geographic bounding box,
+# return the center point as a dictionary with the keys { 'x' , 'y' }.
+def center_of_bbox(bbox):
+    center_x = bbox['minx'] + (bbox['maxx'] - bbox['minx']) / 2
+    center_y = bbox['miny'] + (bbox['maxy'] - bbox['miny']) / 2
+    retval = { 'x' : center_x, 'y' : center_y }
+    return retval
+# end_def center_of_bbox()
+
+
+# In[20]:
+
+
+# Get the bounding box of the selected links
+bbox = bbox_of_gdf(join_df)
+
+
+# In[21]:
+
+
+# Get the center point of that bbox
+center_pt = center_of_bbox(bbox)
+
+
+# In[22]:
+
+
+center_pt
+
+
+# In[26]:
 
 
 # Export the geo-dataframe to GeoJSON format, so it can be used with the folium library
@@ -136,7 +181,7 @@ out_geojson_fn = my_sandbox_dir + 'temp_geojson.geojson'
 join_df.to_file(out_geojson_fn, driver='GeoJSON')
 
 
-# In[37]:
+# In[27]:
 
 
 # Make a static map of speed during the AM period
@@ -145,17 +190,17 @@ plt.title('Speed in AM')
 plt.show()
 
 
-# In[38]:
+# In[28]:
 
 
 # Render an interactive folium map of AM speed
 # 
 # model_region_center = [42.27, -71.73]
 #
-# For now, we'll use a "canned center value"
-# TBD: compute center from GeoJSON
+# A "canned center value" for this set of links:
+# center = [42.38439, -71.05103]
 #
-center = [42.38439, -71.05103]
+center = [center_pt['y'], center_pt['x']]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 #
@@ -185,17 +230,13 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function,
-               tooltip=folium.features.GeoJsonTooltip(
-                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
-                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
-               )).add_to(m)
+               style_function=my_style_function).add_to(m)
 
 #
 m
 
 
-# In[44]:
+# In[29]:
 
 
 # Make an interactive bar chart of speed for each link in the AM period
@@ -221,7 +262,7 @@ just_the_facts_maam_df.hvplot.barh(x="ID",
                                    height=1000)
 
 
-# In[43]:
+# In[30]:
 
 
 # Make a static map of total daily flow (volume) during the AM period
@@ -230,17 +271,17 @@ plt.title('Daily Total Flow (volume)')
 plt.show()
 
 
-# In[30]:
+# In[31]:
 
 
 # Make an interactive folium map of total daily flow (volume) during the AM period
 # 
 # model_region_center = [42.27, -71.73]
 #
-# For now, we'll use a "canned center value"
-# TBD: compute center from GeoJSON
+# A "canned center value" for this set of links:
+# center = [42.38439, -71.05103]
 #
-center = [42.38439, -71.05103]
+center = [center_pt['y'], center_pt['x']]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 #
@@ -272,17 +313,13 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function,
-               tooltip=folium.features.GeoJsonTooltip(
-                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
-                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
-               )).add_to(m)
+               style_function=my_style_function).add_to(m)
 
 #
 m
 
 
-# In[45]:
+# In[32]:
 
 
 # Make an interactive bar chat of total daily flow (volume) during the AM period
@@ -295,7 +332,7 @@ just_the_facts_maam_df.hvplot.barh(x="ID",
                                    height=1000)
 
 
-# In[31]:
+# In[33]:
 
 
 # Make a static map of the volume-to-capacity ratio during the AM period
@@ -304,17 +341,17 @@ plt.title('Volume/Capacity Ratio')
 plt.show()
 
 
-# In[32]:
+# In[34]:
 
 
 # Make an interactive folium map of the volume-to-capacity ratio during the AM period
 # 
 # model_region_center = [42.27, -71.73]
 #
-# For now, we'll use a "canned center value"
-# TBD: compute center from GeoJSON
+# A "canned center value" for this set of links:
+# center = [42.38439, -71.05103]
 #
-center = [42.38439, -71.05103]
+center = [center_pt['y'], center_pt['x']]
 m = folium.Map(location=center, zoom_start=12)
 links_geojson = open(out_geojson_fn).read()
 # 
@@ -340,17 +377,13 @@ def my_style_function(feature):
     }
 #
 folium.GeoJson(links_geojson,
-               style_function=my_style_function,
-               tooltip=folium.features.GeoJsonTooltip(
-                   fields=['ID', 'STREETNAME', 'Speed_am', 'VOC_am', 'Tot_Flow_daily'],
-                   aliases=['Link ID', 'Street Name', 'AM Speed', 'AM VOC', 'Total Flow Daily']
-               )).add_to(m)
+               style_function=my_style_function).add_to(m)
 
 #
 m
 
 
-# In[46]:
+# In[35]:
 
 
 # Make an interactive bar chart of the volume-to-capacity ratio during the AM period
