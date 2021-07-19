@@ -1,3 +1,6 @@
+# bbox_of_gdf.py
+# Author: B. Krepp
+
 import pandas as pd
 import geopandas as gp
 
