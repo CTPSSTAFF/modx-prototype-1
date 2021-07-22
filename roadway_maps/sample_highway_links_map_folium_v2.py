@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[2]:
 
 
 # Notebook to display data for selected highway links flow, V/C, and speeds using the folum library.
@@ -25,66 +25,66 @@ import geoviews
 import hvplot.pandas
 
 
-# In[5]:
+# In[3]:
 
 
 get_ipython().run_line_magic('matplotlib', 'notebook')
 
 
-# In[6]:
+# In[4]:
 
 
 # Directory in which user's output CSV report data was saved - it will now be our *input* directory
 my_sandbox_dir = r'S:/my_modx_output_dir/'
 
 
-# In[7]:
+# In[5]:
 
 
 # Name of CSV file with volume, V/C, and speed data for selected links - it will now be our *input* CSV file
 csv_fn = 'links_report_base_scenario.csv'
 
 
-# In[8]:
+# In[6]:
 
 
 # Fully-qualified pathname to CSV file
 fq_csv_fn = my_sandbox_dir + csv_fn
 
 
-# In[9]:
+# In[7]:
 
 
 links_data_df = pd.read_csv(fq_csv_fn, delimiter=',')
 
 
-# In[10]:
+# In[8]:
 
 
 links_data_df
 
 
-# In[11]:
+# In[9]:
 
 
 list(links_data_df.columns)
 
 
-# In[12]:
+# In[10]:
 
 
 # List of the IDs for the model network links for which data is reported in the input CSV file
 links_list = links_data_df['ID1'].to_list()
 
 
-# In[13]:
+# In[11]:
 
 
 # Directory in which the spatial data for the model network links is stored (both shapefile and GeoJSON formats)
 links_spatial_data_dir = r'G:/Data_Resources/modx/statewide_links_shapefile/'
 
 
-# In[14]:
+# In[12]:
 
 
 # Load the links shapefile into a geopandas dataframe 
@@ -95,33 +95,33 @@ links_gdf = gp.read_file(fq_links_shapefile_fn)
 links_gdf.set_index("ID")
 
 
-# In[15]:
+# In[13]:
 
 
 # Filter the links geodataframe to only the links of interest
 filtered_links_gdf = links_gdf[links_gdf['ID'].isin(links_list)] 
 
 
-# In[16]:
+# In[14]:
 
 
 filtered_links_gdf
 
 
-# In[17]:
+# In[15]:
 
 
 # Join the geo-data frame for the links with the "links_data_df", which contains the computed data about these links
 join_df = filtered_links_gdf.join(links_data_df.set_index("ID1"), on="ID")
 
 
-# In[18]:
+# In[16]:
 
 
 join_df
 
 
-# In[19]:
+# In[17]:
 
 
 # Return the bounding box of all the features in a geo-dataframe.
@@ -153,27 +153,39 @@ def center_of_bbox(bbox):
 # end_def center_of_bbox()
 
 
-# In[20]:
+# In[18]:
 
 
 # Get the bounding box of the selected links
 bbox = bbox_of_gdf(join_df)
 
 
-# In[21]:
+# In[19]:
 
 
 # Get the center point of that bbox
 center_pt = center_of_bbox(bbox)
 
 
+# In[20]:
+
+
+# Directory containing miscellaneous reference data
+misc_reference_data_dir = r'G:/Data_Resources/modx/misc_reference_data/'
+
+
+# In[21]:
+
+
+# Load the MassGIS TOWNS_POLYM shapefile into a geopandas dataframe 
+# NOTE: This version of the shapefile is in EPSG4326, i.e., WGS84
+towns_shapefile_fn = 'towns_polym_EPSG4326.shp'
+fq_towns_shapefile_fn = misc_reference_data_dir + towns_shapefile_fn
+towns_gdf = gp.read_file(fq_towns_shapefile_fn)
+towns_gdf.set_index("town_id")
+
+
 # In[22]:
-
-
-center_pt
-
-
-# In[26]:
 
 
 # Export the geo-dataframe to GeoJSON format, so it can be used with the folium library
@@ -181,16 +193,19 @@ out_geojson_fn = my_sandbox_dir + 'temp_geojson.geojson'
 join_df.to_file(out_geojson_fn, driver='GeoJSON')
 
 
-# In[27]:
+# In[23]:
 
 
-# Make a static map of speed during the AM period
-join_df.plot("Speed_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
+# Make a static map of speed during the AM period overlayed on the towns layer
+base = towns_gdf.plot(color='white', edgecolor='black')
+join_df.plot("Speed_am", ax=base, figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.xlim((bbox['minx'], bbox['maxx']))
+plt.ylim((bbox['miny'], bbox['maxy']))
 plt.title('Speed in AM')
 plt.show()
 
 
-# In[28]:
+# In[24]:
 
 
 # Render an interactive folium map of AM speed
@@ -236,7 +251,7 @@ folium.GeoJson(links_geojson,
 m
 
 
-# In[29]:
+# In[25]:
 
 
 # Make an interactive bar chart of speed for each link in the AM period
@@ -262,16 +277,19 @@ just_the_facts_maam_df.hvplot.barh(x="ID",
                                    height=1000)
 
 
-# In[30]:
+# In[26]:
 
 
 # Make a static map of total daily flow (volume) during the AM period
-join_df.plot("Tot_Flow_daily", figsize=(10.0,8.0), cmap='plasma', legend=True)
+base = towns_gdf.plot(color='white', edgecolor='black')
+join_df.plot("Tot_Flow_daily", ax=base, figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.xlim((bbox['minx'], bbox['maxx']))
+plt.ylim((bbox['miny'], bbox['maxy']))
 plt.title('Daily Total Flow (volume)')
 plt.show()
 
 
-# In[31]:
+# In[27]:
 
 
 # Make an interactive folium map of total daily flow (volume) during the AM period
@@ -319,7 +337,7 @@ folium.GeoJson(links_geojson,
 m
 
 
-# In[32]:
+# In[28]:
 
 
 # Make an interactive bar chat of total daily flow (volume) during the AM period
@@ -332,16 +350,19 @@ just_the_facts_maam_df.hvplot.barh(x="ID",
                                    height=1000)
 
 
-# In[33]:
+# In[29]:
 
 
 # Make a static map of the volume-to-capacity ratio during the AM period
-join_df.plot("VOC_am", figsize=(10.0,8.0), cmap='plasma', legend=True)
+base = towns_gdf.plot(color='white', edgecolor='black')
+join_df.plot("VOC_am", ax=base, figsize=(10.0,8.0), cmap='plasma', legend=True)
+plt.xlim((bbox['minx'], bbox['maxx']))
+plt.ylim((bbox['miny'], bbox['maxy']))
 plt.title('Volume/Capacity Ratio')
 plt.show()
 
 
-# In[34]:
+# In[30]:
 
 
 # Make an interactive folium map of the volume-to-capacity ratio during the AM period
@@ -383,7 +404,7 @@ folium.GeoJson(links_geojson,
 m
 
 
-# In[35]:
+# In[31]:
 
 
 # Make an interactive bar chart of the volume-to-capacity ratio during the AM period
