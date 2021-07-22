@@ -1,0 +1,78 @@
+Route_ID,Route_Name
+7887,104:Sullivan
+8188,104:Malden
+7888,105.1:Sullivan
+8187,105.1:Malden
+8339,109:Linden Square
+8386,109:Sullivan Square
+8387,109.1:Sullivan Square
+8388,109.1:Glendale Square
+7871,111.8:Broadway & Park
+7872,111.2:Cary Square
+7873,111.5:Woodlawn
+8754,111.8:Haymarket
+8755,111.2:Haymarket
+8756,111.5:Haymarket
+8766,111.9 Haymarket
+8774,111.9 Haym
+4917,112:Wellington via Admiral's Hil
+4918,112:Wellington via Central Ave.
+8761,112:Wood Island via Admirals 1
+8762,112:Wood Island via Market Baske
+8753,114.1:Maverick
+8763,114.1:Market Basket
+8099,116.4:Wonderland
+8100,116.7:Bellingham Square
+8752,116.4:Maverick
+8757,116.7:Maverick
+8011,117.1:Logan Airport Terminal C
+8103,117.5:Wonderland
+8758,117.5:Maverick
+8759,117:Haymarket via Maverick
+8760,117.8:Haymarket via Maverick
+8620,120: Orient Heights via Wood Isl
+4733,121.2:Eagle Square
+4734,121:Wood Island
+4812,121:Maverick
+4813,121.2:Maverick
+5409,424:Eastern & Essex via Western
+7846,424.6:Wonderland
+5194,426.4:Central Square
+5401,426.1:Haymarket via Cliftondale
+5402,4264:Haymarket via Loring Ave. &
+5403,426:Haymarket via Cliftondale
+7854,426.7:Wonderland via Cliftondale
+7876,4264:Nahant via Central Square
+7877,4264:Salem Depot via Cliftondale
+7878,426:Central Square via Cliftonda
+7879,426.1:West Lynn via Cliftondale
+5395,428:Haymarket via Cliftondale (E
+7875,428:Oaklandvale via Cliftondale
+5410,434:Peabody Square via Western A
+7847,434:Haymarket via Goodwins Cir &
+436,450.9:West Lynn Garage
+5411,450.8:Salem Depot
+7849,450.7:Wonderland
+8721,450.8:Haymarket
+6046,Blue Line (Wonderland - Bowdoin)
+6047,Blue Line (Bowdoin - Wonderland)
+7810,CoachCo_P1_IB
+7811,CoachCo_P234_IB
+7812,CoachCo_H1_IB
+7844,CoachCo_H2_IB
+8726,CoachCo_P1_IB_T
+8727,CoachCo_P234_IB_T
+8728,CoachCo_H1_IB_T
+8729,CoachCo_H2_IB_T
+7652,CR: NS-BEV (LOCAL) OB
+7653,CR: BEV-NS (LOCAL) IB
+7654,CR: NS-NEWBURYPORT (LOCAL) OB
+7655,CR: NEWBURYPORT-NS (LOCAL) IB
+7656,CR: NS-ROCK (LOCAL) OB
+7657,CR ROCK-NS (LOCAL) IB
+7658,CR: ROCK-NS (EXP) IB
+7659,CR: NS-ROCK (EXP) OB
+6015,Orange Line:Orange Line (Forest
+6016,Orange Line:Orange Line (Oak Gro
+6058,SL3:Chelsea
+6059,SL3:South Station

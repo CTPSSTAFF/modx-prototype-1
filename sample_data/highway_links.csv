@@ -1,0 +1,85 @@
+TC_Link_ID,Raodway,Direction
+77530,US-1,NB
+133457,US-1,NB
+50205,US-1,NB
+50553,US-1,NB
+50555,US-1,NB
+50839,US-1,NB
+50841,US-1,NB
+51362,US-1,NB
+51375,US-1,NB
+47112,US-1,NB
+47121,US-1,NB
+46755,US-1,NB
+47124,US-1,NB
+44592,US-1,NB
+49899,US-1,NB
+53056,US-1,NB
+51546,US-1,NB
+222686,US-1,NB
+51555,US-1,NB
+51554,US-1,NB
+51764,US-1,NB
+51556,US-1,SB
+51559,US-1,SB
+51545,US-1,SB
+51543,US-1,SB
+53310,US-1,SB
+53309,US-1,SB
+53267,US-1,SB
+46622,US-1,SB
+44586,US-1,SB
+46627,US-1,SB
+47122,US-1,SB
+46971,US-1,SB
+51374,US-1,SB
+51356,US-1,SB
+51353,US-1,SB
+51351,US-1,SB
+50854,US-1,SB
+50853,US-1,SB
+56782,US-1,SB
+55682,US-1,SB
+76444,US-1,SB
+74196,US-1,SB
+61550,US-1,SB
+61552,US-1,SB
+61555,US-1,SB
+66046,Callahan,NB
+221818,Sumner,SB
+34364,TWT,EB
+221825,TWT,WB
+53356,Ruth.Surface at Mystic River,SB
+50230,Ruth.Tunnel at Mystic River,SB
+51082,Ruth.Surface at Mystic River,NB
+247443,Ruth.Tunnel at Mystic River,NB
+50419,Ruth.Surface at A st,SB
+247441,Ruth.Tunnel at A st,SB
+53180,Ruth.Surface at A st,NB
+53179,Ruth.Tunnel at A st,NB
+64845,I-93 southbound between Interchange 31 on- and off-ramps,SB
+64044,I-93 southbound between Interchange 31 off-ramp and Interchange 30 off-ramp,SB
+63082,I-93 southbound between Interchange 30 off-ramp and start of HOV lane,SB
+95840,I-93 southbound between start of HOV lane and Interchange 28 off-ramp,SB
+66506,I-93 southbound between Interchange 28 off-ramp and Interchange 29 on-ramp,SB
+95841,HOV lane,SB
+64844,Interchange 31 on-ramp from Mystic Valley Parkway / Route 16,SB
+64848,Interchange 31 off-ramp to Mystic Valley Parkway / Route 16,SB
+63094,Interchange 30 off-ramp to Mystic Avenue,SB
+62793,Interchange 28 off-ramp to Sullivan Square,SB
+66505,Interchange 28 on-ramp from Route 28,SB
+75583,I-93 southbound between on-ramp from Route 1 and merge with HOV lane,SB
+74470,Interchange 28A off-ramp to Leverett Circle,SB
+59839,Interchange 28A on-ramp from Route 1,SB
+64835,I-93 northbound between Interchange 31 off-ramp and Interchange 31 on-ramp,NB
+64840,I-93 northbound between Interchange 30 on-ramp and Interchange 31 off-ramp,NB
+63051,I-93 northbound between Interchange 29 off-ramp and Interchange 29 on-ramp,NB
+64843,I-93 at mystic river crossing,SB
+58835,I-93 at mystic river crossing,NB
+58802,RT 16 at mystic river crossing at I-93,WB
+87134,RT 16 at mystic river crossing near station landing,EB
+51995,RT 16 at mystic river crossing at I-94,SB
+10548,RT 16 at mystic river crossing at I-95,NB
+65462,Alfrod St bridge,SB
+65463,Alfrod St bridge,NB
+,,
