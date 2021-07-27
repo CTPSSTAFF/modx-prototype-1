@@ -1,0 +1,20 @@
+# Function: load_tts_as_np_arrays
+#
+# Summary load all trip tables (i.e, for all time periods, for all modes) as NumPy arrays,
+# and return a two-level dictionary (i.e., by time period and by mode) of the results.
+#
+period_list = ['am', 'md', 'pm', 'nt']
+mode_list = ['SOV', 'HOV', 'Heavy_Truck', 'Heavy_Truck_HazMat', 'Medium_Truck', 'Medium_Truck_HazMat', 'Light_Truck',
+             'Walk', 'Bike', 'DAT_Boat', 'DET_Boat', 'DAT_CR', 'DET_CR', 'DAT_LB', 'DET_LB', 'DAT_RT', 'DET_RT', 'WAT' ]
+#
+def load_tts_as_np_arrays(tts):
+    retval = {'am' : None, 'md' : None, 'pm' : None, 'nt' : None }
+    for period in period_list:
+        retval[period] = {}
+        for mode in mode_list:
+            temp = tts[period][mode]
+            retval[period][mode] = np.array(temp)
+        # end_for
+    # end_for
+    return retval
+# end_def
