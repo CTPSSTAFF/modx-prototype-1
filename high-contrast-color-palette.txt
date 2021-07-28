@@ -1,0 +1,9 @@
+#0050fc - blue
+#00fcfc - turquoise
+#40a624 - green
+#f4fc00 - yellow
+#fc9b00 - orange
+#fc00a4 - pink
+#fc0000 - red
+
+-- Color scale provided by Margaret Atkinson.
