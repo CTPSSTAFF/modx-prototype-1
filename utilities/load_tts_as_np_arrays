@@ -1,15 +1,33 @@
 # Function: load_tts_as_np_arrays
 #
-# Summary load all trip tables (i.e, for all time periods, for all modes) as NumPy arrays,
+# Summary: Load all trip tables (i.e, for all time periods, for all modes) as NumPy arrays,
 # and return a two-level dictionary (i.e., by time period and by mode) of the results.
+# This is the biggest sledge-hammer.
 #
-period_list = ['am', 'md', 'pm', 'nt']
-mode_list = ['SOV', 'HOV', 'Heavy_Truck', 'Heavy_Truck_HazMat', 'Medium_Truck', 'Medium_Truck_HazMat', 'Light_Truck',
-             'Walk', 'Bike', 'DAT_Boat', 'DET_Boat', 'DAT_CR', 'DET_CR', 'DAT_LB', 'DET_LB', 'DAT_RT', 'DET_RT', 'WAT' ]
+all_periods_list = ['am', 'md', 'pm', 'nt']
+all_modes_list = ['SOV', 'HOV', 'Heavy_Truck', 'Heavy_Truck_HazMat', 'Medium_Truck', 'Medium_Truck_HazMat', 'Light_Truck',
+                 'Walk', 'Bike', 'DAT_Boat', 'DET_Boat', 'DAT_CR', 'DET_CR', 'DAT_LB', 'DET_LB', 'DAT_RT', 'DET_RT', 'WAT' ]
 #
 def load_tts_as_np_arrays(tts):
     retval = {'am' : None, 'md' : None, 'pm' : None, 'nt' : None }
-    for period in period_list:
+    for period in all_periods_list:
+        retval[period] = {}
+        for mode in all_modes_list:
+            temp = tts[period][mode]
+            retval[period][mode] = np.array(temp)
+        # end_for
+    # end_for
+    return retval
+# end_def load_tts_as_np_arrays()
+
+# Function: load_tts_for_mode_list_as_np_arrays
+#
+# Summary: Load all trip tables for all time periods for a specified list of modes as NumPy arrays,
+# and return a two-level dictionary (i.e., by time period and by mode) of the results.
+#
+def load_tts_for_mode_list_as_np_arrays(tts, mode_list):
+    retval = {'am' : None, 'md' : None, 'pm' : None, 'nt' : None }
+    for period in all_periods_list:
         retval[period] = {}
         for mode in mode_list:
             temp = tts[period][mode]
@@ -17,4 +35,4 @@ def load_tts_as_np_arrays(tts):
         # end_for
     # end_for
     return retval
-# end_def
+# end_def load_tts_for_mode_list_as_np_arrays()
