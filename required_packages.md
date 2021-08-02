@@ -14,3 +14,8 @@ The prototype requires the use of GeoPandas, the most recent version of which re
 * folium
 * xarray
 * jenkspy (possibly)
+* plotly
+* os
+* glob
+* functools
+* io (? don't know if this was me or you?)
