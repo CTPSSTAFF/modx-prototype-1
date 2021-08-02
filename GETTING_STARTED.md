@@ -45,13 +45,19 @@ In order to create such an environment, do the following:
 
 ## Gettng Your Local System Ready to Run MoDX
 
-* Clone the Cloning the MoDX GitHub Repository:
+* Clone the MoDX GitHub Repository:
 * * Change directory to the __parent__ directory into which you want to clone the MoDX GitHub repo, then clone it:
 * * __git clone https://github.com/CTPSSTAFF/modx-prototype-1__
+* * For the purpose of the rest of this discussion, we'll call the _fully-qualified_ path to this directory my_modx_dir
 * Set this folder as the default location from which to launch Jupyter notebooks.
-* * TBD
-* Create a "sandbox" folder for your MoDX output:
-* * __mkdir 
+* * In an Anaconda command window, type __jupyter notebook --generate-config__
+* * This will write to the file __C:\Users\username\.jupyter\jupyter_notebook_config.py__
+* * Browse to the file location and open it in an Editor
+* * Search for the following line in the file: __c.NotebookApp.notebook_dir = ''__
+* * Replace this with __c.NotebookApp.notebook_dir = 'my_modx_dir'__
+* * * For example: __c.NotebookApp.notebook_dir = 'S:/my_modx_notebooks'__
+* Create a "sandbox" folder for your MoDX output. It needs to be in a location to which you have write priveleges, and can have a name of your own chosing.
+* * __mkdir _S:/my_modx_output_dir_ __ 
 
 ## Launching MoDX Jupyter Notbooks
 
