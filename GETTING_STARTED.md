@@ -41,7 +41,7 @@ Execute the following steps __in sequence__ to create the configuration required
 * Press the __+ Create__ button
 * In the dialog box that appears:
 * * Set __Name__ to __modx_p1d0_config__
-* * Check the box for __Python__, and select version __3.7__ (_not version 3.8!__)
+* * Check the box for __Python__, and select version __3.7__ (__not version 3.8!__)
 * * Press the __Create__ button
 * * The new environment will appear in the list of environments (under "Search Environments") in the Navigator window.
 * Install the __openmatrix__ package - this package is not known to any Anaconda "Channel", and so must be installed manually:
