@@ -24,9 +24,42 @@ to run MoDX Jupyter notebooks.
 
 ## Installing Anaconda Navigator
 
+Although it is possible to run Anaconda as a "command line" tool (a.k.a. "conda"), we strongly recommend installing Anaconda Navigator, a graphical front-end
+for Anaconda that will help make working with Anaconda simpler particularly for newcomers. Installation instructions for your operating system
+can be found [here](https://docs.anaconda.com/anaconda/install/). __Install the  _individual_ edition of Anaconda.__ 
+We recommend installing Anaconda in _administrator_ mode.
+
 ## Creating an Anaconda Environment for MoDX
 
+MoDX requires a parther.
+Execute the following steps __in sequence__ to create the configuration required by MoDX; assign this configuration the name __modx_p1d0_config__:
+* Launch Anaconda Navigator
+* Select __Environments__ from the list of choices on the left-hand side of the page.
+* Press the __+ Create__ button
+* In the dialog box that appears:
+* * Set __Name__ to __modx_p1d0_config__
+* * Check the box for __Python__, and select version __3.7__ (_not version 3.8!__)
+* * Press the __Create__ button
+* * The new environment will appear in the list of environments (under "Search Environments") in the Navigator window.
+* Install the __openmatrix__ package - this package is not known to any Anaconda "Channel", and so must be installed manually:
+* * Right-mouse click on the __modx_p1d0_config__ environment, and select __terminal__.
+* * In the terminal window that appears type _pip install -m openmatrix_
+* Install the __jenkspy__ package - This is also a somewhat specialized package and must be installed manually.
+* * Use the same sequence of steps as for __openmatrix__.
+* * You may minimize the terminal window at this point, and return to Anaconda Navigator.
+* Install the __pandas__ package
+* * From the combo-box at the top of the right-hand portion of the Anaconda window, select __Not installed__. (It probably reads __Installed__ at Navigator start-up.)
+* * In the search box, near the top right of the Navigator window, enter __pandas__.
+* * In the search results list, check the box next to __pandas__.
+* * Click the __Apply__ button that appears in the bottom right hand portion of the Navigator window.
+* Install the __geopands__ package
+* Install the __hvplot__ package
+* Install the __geoviews__ package
+* Install the __folium__ package
+
 ## Cloning the MoDX GitHub Repository
+
+* Set this folder as the default location from which to launch Jupyter notebooks.
 
 ## Creating a "Sandbox" Folder for Your MoDX Output
 
