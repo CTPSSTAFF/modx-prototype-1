@@ -25,46 +25,33 @@ a consistent set of these packages that is known to work together.
 resource drain, not to mention headache. Consequently, getting started with MoDX first entails installing Anaconda and creating a correct environment in which
 to run MoDX Jupyter notebooks.
 
-## Installing Anaconda Navigator
+## Installing Anaconda and Anaconda Navigator
 
-Although it is possible to run Anaconda as a "command line" tool (a.k.a. "conda"), we strongly recommend installing Anaconda Navigator, a graphical front-end
-for Anaconda that will help make working with Anaconda simpler particularly for newcomers. Installation instructions for your operating system
-can be found [here](https://docs.anaconda.com/anaconda/install/). __Install the  _individual_ edition of Anaconda.__ 
-We recommend installing Anaconda in _administrator_ mode.
+Install the [Anaconda Individual Edition](https://www.anaconda.com/products/individual).
+This installation will require 477 MegaBytes of storage on your hard drive on a Windows 10 system.
+The installation includes the Anaconda Shell ("command box") as well as Anaconda Navigator, a graphical front-end to Anaconda.
+We will be working with Anaconda both at the command-line and using the GUI.
 
 ## Creating an Anaconda Environment for MoDX
 
-MoDX requires a parther.
-Execute the following steps __in sequence__ to create the configuration required by MoDX; assign this configuration the name __modx_p1d0_config__:
-* Launch Anaconda Navigator
-* Select __Environments__ from the list of choices on the left-hand side of the page.
-* Press the __+ Create__ button
-* In the dialog box that appears:
-* * Set __Name__ to __modx_p1d0_config__
-* * Check the box for __Python__, and select version __3.7__ (__not version 3.8!__)
-* * Press the __Create__ button
-* * The new environment will appear in the list of environments (under "Search Environments") in the Navigator window.
-* Install the __openmatrix__ package - this package is not known to any Anaconda "Channel", and so must be installed manually:
-* * Right-mouse click on the __modx_p1d0_config__ environment, and select __terminal__.
-* * In the terminal window that appears type _pip install -m openmatrix_
-* Install the __jenkspy__ package - This is also a somewhat specialized package and must be installed manually.
-* * Use the same sequence of steps as for __openmatrix__.
-* * You may minimize the terminal window at this point, and return to Anaconda Navigator.
-* Install the __pandas__ package
-* * From the combo-box at the top of the right-hand portion of the Anaconda window, select __Not installed__. (It probably reads __Installed__ at Navigator start-up.)
-* * In the search box, near the top right of the Navigator window, enter __pandas__.
-* * In the search results list, check the box next to __pandas__.
-* * Click the __Apply__ button that appears in the bottom right hand portion of the Navigator window.
-* Install the __geopands__ package
-* Install the __hvplot__ package
-* Install the __geoviews__ package
-* Install the __folium__ package
+A collection of packages that are compatible and work together is called an _environment_ in the Anaconda world.
+MoDX requires a specific collection of packages, based on Python version 3.8.
+In order to create such an environment, do the following:
+* Go to the [MoDX GitHub page](https://www.github.com/CTPSSTAFF/modx-prototype-1)
+* Navigate to the file __environments/modx_p1d0_envt.yml__
+* Save the file on your local computer, keepong the name "modx_p1d0_envt.yml"
+* Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an Anaconda command window
+* In this command window, type __conda env create -f modx_p1d0_envt.yml__, being sure to specify the _full path_ to the .yml file.
 
-## Cloning the MoDX GitHub Repository
+## Gettng Your Local System Ready to Run MoDX
 
+* Clone the Cloning the MoDX GitHub Repository:
+* * Change directory to the __parent__ directory into which you want to clone the MoDX GitHub repo, then clone it:
+* * __git clone https://github.com/CTPSSTAFF/modx-prototype-1__
 * Set this folder as the default location from which to launch Jupyter notebooks.
-
-## Creating a "Sandbox" Folder for Your MoDX Output
+* * TBD
+* Create a "sandbox" folder for your MoDX output:
+* * __mkdir 
 
 ## Launching MoDX Jupyter Notbooks
 
