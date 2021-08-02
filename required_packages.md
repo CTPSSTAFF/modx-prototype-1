@@ -7,7 +7,6 @@ Notes:
 * Packages marked __+__ are __not__ part of the Python Standard Library.
 * Packages marked __++__ are __not__ part of the Python Standard Library, but __are__ included in Anacondas's base Python package configuration.
 * Packages marked __+++__ are __not__ part of the Python Standard Library, and __are not__ included in Anacondas's base Python package configuration. _These packages require explicit installtion._
-* 
 
 * openmatrix __+++__
 * numpy __++__
