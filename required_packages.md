@@ -6,7 +6,8 @@ The prototype requires the use of GeoPandas, the most recent version of which re
 Notes:
 * Packages marked __+__ __are__ part of the Python Standard Library.
 * Packages marked __++__ are __not__ part of the Python Standard Library, but __are__ included in Anacondas's base Python package configuration.
-* Packages marked __+++__ are __not__ part of the Python Standard Library, and __are not__ included in Anacondas's base Python package configuration. _These packages require explicit installtion._
+* Packages marked __+++__ are __not__ part of the Python Standard Library, and __are not__ included in Anacondas's base Python package configuration. _These packages require explicit installtion that can be performed within Anaconda Navigator._
+* Packages marked __++++__ are _not_ part of the Python Standard Library, and __ are not__ included in Anaconda's base Python package configuration. _These packages require explicit installtation using __pip__._
 
 List of packages:
 * os __+__
@@ -17,12 +18,12 @@ List of packages:
 * pandas __++__
 * matplotlib __++__
 * xarray __++__
-* openmatrix __+++__
 * geopandas __+++__
 * hvplot __+++__
 * bokeh __+++__
 * geoviews __+++__
 * folium __+++__
 * plotly __+++__
-* jenkspy (TBD if this is required) __+++__
+* openmatrix __++++__
+* jenkspy (TBD if this is required) __++++__
 
