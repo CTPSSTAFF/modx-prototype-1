@@ -90,7 +90,7 @@ To shut down a particular Jupyter notebook, perform the following steps:
 * Click on the __Running__ tab
 * A list of your running Jupyter notbeooks will be displayed
 * Navigate to the row listing the notebook you want to shut down
-* Click on the orange __Stop Kernel__ button __>>>*** CHECK THIS ***<<<__
+* Click on the orange-brown __Stop Kernel__ button __>>>*** CHECK THIS ***<<<__
 * Wait a few moments for the kernel running your notebook to be shut down
 * When it has shut down, feel free to navigate back to the __TBD__ tab in the 'file browser' view
 * In your web browser, switch to the tab in which your notebook was running
@@ -112,6 +112,6 @@ MoDX Jupyter Notebook at any given time on typical systems with 8 GB of RAM.)
 
 Under these circumstances Anaconda Navigator can be "killed" on a Windows 10 system as follows:
 * Open a command prompt ("DOS box")
-* Enter the command __tasklist | find str "pythonw"
+* Enter the command __tasklist | findstr "pythonw"__
 * Note the process-IDs of the list of processes produced by running the previous command
-* For each such process-ID, enter the command __tskil _process_ID_ __
+* For each such process-ID, enter the command __tskil__ _process_ID_
