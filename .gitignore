@@ -1,0 +1,5 @@
+*.ipynb_checkpoints/*
+highway_volumes/*.ipynb_checkpoints/*
+roadway_maps/*.ipynb_checkpoints/*
+taz_maps/*.ipynb_checkpoints/*
+transit_boardings*.ipynb_checkpoints/*
