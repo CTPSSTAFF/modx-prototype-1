@@ -80,7 +80,15 @@ To launch a particular MoDX Jupyter notebook, perform the following steps:
 * In the 'file browser' tab created in your web browser in the previous step, navigate to the folder containing the Jupyter notebook you want to run
 * Click on the name of the notebook you wish to run
 * In a few moments, the notebook will launch in a _new_ tab in your web browser
-* __TO BE CONTINUED__
+* To run the __entire__ notebook (i.e., all the cells in it), select __Cell > Run All__ from the menu at the top of the page. 
+** _This is not recommended for new users or those who will be making changes to the notebook._
+* To run the __notebook one cell at time__:
+** Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
+** Then, click the __Run__ button at the top of the page.
+** The notebook will execute the first cell, and the notbook's "focus" will advance to the next cell.
+** Continue to click the __Run__ button, advancing thorough all the cells in the notebook.
+*** Note: The amount of time required to execute a cell varies with the amount of computation each cell performs. Some cells may take quite a bit longer than others to execute.
+*** In particular, cells that generate interactive maps of large quantities of geometric polygon data (e.g., TAZ maps) may take as long as a minute to execute.
 
 ## Shutting Down a MoDX Jupyter Notebook 
 
@@ -97,7 +105,7 @@ To shut down a particular Jupyter notebook, perform the following steps:
 * Click the __x__ button on the browser tab to close the tab
 * When prompted by a pop-up to either stay on the page or to leave it, click the __Leave__ button.
 
-## Shutting Down Jupyter Notebooks
+## Shutting Down Jupyter Notebooks Altogether
 
 To compleltey shut down Jupyter notebooks (i.e., shut down the kernel running the notebooks), perform the following steps:
 * In your web browser, navigate to the tab with the 'file system view' of your MoDX directory
