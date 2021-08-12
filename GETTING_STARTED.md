@@ -8,7 +8,8 @@ It walks new users through all the steps required to install and run MoDX, inclu
 * Launching Jupyter notebooks
 * Running a MoDX Jupyter notebook
 * Closing a MoDX Jupyter notebook 
-* Closing down Jupyter notebooks
+* Closing down Jupyter notebooks altogether
+* The "Emergency Kill-Switch"
 
 ## Introduction 
 
