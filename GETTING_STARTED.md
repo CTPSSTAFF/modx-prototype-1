@@ -42,11 +42,15 @@ It is useful to become familiar with both the command-line and graphical interfa
 A collection of packages that are compatible and work together is called an _environment_ in the Anaconda world.
 MoDX requires a specific collection of packages, based on Python version __3.8__.
 In order to create such an environment, perform the following steps:
-* Go to the [MoDX GitHub page](https://www.github.com/CTPSSTAFF/modx-prototype-1)
-* Navigate to the file __environments/modx_p1d0_envt.yml__
-* Save the file on your local computer, keeping the name "modx_p1d0_envt.yml"
-* Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an Anaconda command window
-* In this command window, type __conda env create -f modx_p1d0_envt.yml__, being sure to specify the _full path_ to the .yml file.
+* From the Windows 10 start menu, launch an __Git bash__ shell
+* In this shell, clone the MoDX GitHub repository:
+* * git clone https://github.com/CTPSSTAFF/modx-prototype-1
+* __cd__ into the directory created by cloning the GitHub repo
+* * If you entered the command listed above literally, that directory will be named _modx-prototype-1_
+* Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an _Anaconda_ command window
+* In the Anaconda command window, enter the command:
+* * __conda env create -f environments/modx_p1d0_envt.yml__, being sure to specify the _full path_ to the .yml file.
+* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer._ 
 
 ## Gettng Your Local System Ready to Run MoDX
 
