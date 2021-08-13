@@ -117,7 +117,7 @@ To compleltey shut down Jupyter notebooks (i.e., shut down the kernel running th
 * Click the __Logout__ button in the upper right-hand corner of this 'file system view' page
 * You may now close the tab in your web browser labeled "Jupyter Notebook".
 
-<h2 style="color:red">The Emergency Kill-Switch</h2>
+## The Emergency Kill-Switch
 
 Anaconda Navigator and/or the Jupyter Notebooks kernel may become unresponsive (i.e., "hang") under certain circumstances,
 such as running out of avaialble RAM on your system. (Because of RAM requirements, it is recommended to run at most __one__ 
