@@ -49,7 +49,7 @@ In order to create such an environment, perform the following steps:
 * * If you entered the command listed above literally, that directory will be named _modx-prototype-1_
 * Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an _Anaconda_ command window
 * In the Anaconda command window, enter the command:
-* * __conda env create -f environments/modx_p1d0_envt.yml__, being sure to specify the _full path_ to the .yml file.
+* * __conda env create -f environments/modx_proto1.yml__, being sure to specify the _full path_ to the .yml file.
 * __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer._ 
 
 ## Gettng Your Local System Ready to Run MoDX
@@ -117,7 +117,7 @@ To compleltey shut down Jupyter notebooks (i.e., shut down the kernel running th
 * Click the __Logout__ button in the upper right-hand corner of this 'file system view' page
 * You may now close the tab in your web browser labeled "Jupyter Notebook".
 
-## The Emergency Kill-Switch
+<h2 style="color:red">The Emergency Kill-Switch</h2>
 
 Anaconda Navigator and/or the Jupyter Notebooks kernel may become unresponsive (i.e., "hang") under certain circumstances,
 such as running out of avaialble RAM on your system. (Because of RAM requirements, it is recommended to run at most __one__ 
