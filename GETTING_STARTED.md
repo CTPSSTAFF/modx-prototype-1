@@ -50,7 +50,7 @@ In order to create such an environment, perform the following steps:
 * Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an _Anaconda_ command window
 * In the Anaconda command window, enter the command:
 * * __conda env create -f environments/modx_proto1.yml__, being sure to specify the _full path_ to the .yml file.
-* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer._ 
+* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__ 
 
 ## Gettng Your Local System Ready to Run MoDX
 
