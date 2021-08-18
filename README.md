@@ -19,7 +19,13 @@ Model Data Explorer Prototype #1
 * * Exploration of model data doesn’t require SW license ($$$)
 * * Leverage open source community expertise in analysis, visualization, etc.
 
+## Relationship Between the CTPS Travel Demand Model and MoDX
+
+The following figure illustrates the relationship between the CTPS Travel Demand Model and MoDX:
+<img src="img/high-level-design-figure.png">
+
 ## Implementation - Choice of Platform
+
 * Two principal candidates
 * * R / RStudio
 * * Python / Jupyter Notebooks
