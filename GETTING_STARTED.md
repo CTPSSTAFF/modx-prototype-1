@@ -50,16 +50,14 @@ In order to create such an environment, perform the following steps:
 * Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an _Anaconda_ command window
 * In the Anaconda command window, enter the command:
 * * __conda env create -f environments/modx_proto1.yml__, being sure to specify the _full path_ to the .yml file.
-* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer._ 
+* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__ 
 
 ## Gettng Your Local System Ready to Run MoDX
 
-To get your local computer system ready to run MoDX, perform the following steps:
-* Clone the MoDX GitHub Repository:
-* * Change directory to the __parent__ directory into which you want to clone the MoDX GitHub repo; then clone it:
-* * __git clone https://github.com/CTPSSTAFF/modx-prototype-1__
-* * For the purpose of the rest of this discussion, we'll call the _fully-qualified_ path to this directory __my_modx_dir__
-* Set this folder as the default location from which to launch Jupyter notebooks.
+To get your local computer system ready to run MoDX, perform the following steps, after having cloned the MoDX GitHub repository as described above.
+* __NOTE: You will need administrative priveleges on your computer in order to execute (some of) these commands.__
+* For the purpose of the rest of this discussion, we'll call the _fully-qualified_ path to the directory into which you cloned the MoDX GitHub repository __my_modx_dir__
+* Set this directory as the default location from which to launch Jupyter notebooks:
 * * In an Anaconda command window, type __jupyter notebook --generate-config__
 * * This will write to the file __C:\Users\username\\.jupyter\jupyter_notebook_config.py__
 * * Browse to the file location, and open it in an editor (such as Notepad++, Vim, Emacs, or VS Code)
