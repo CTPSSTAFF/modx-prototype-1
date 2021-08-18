@@ -86,10 +86,10 @@ To launch a particular MoDX Jupyter notebook, perform the following steps:
 * To run the __entire__ notebook (i.e., all the cells in it), select __Cell > Run All__ from the menu at the top of the page. 
  _This is not recommended for brand-new users or those who expect to be making changes to the notebook._
 * To run the notebook __one cell at time__ :
-** Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
-** Then, click the __Run__ button at the top of the page.
-** The notebook will execute the first cell, and the notbook's "focus" will advance to the next cell.
-** Continue to click the __Run__ button, advancing thorough all the cells in the notebook.  
+* * Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
+* * Then, click the __Run__ button at the top of the page.
+* * The notebook will execute the first cell, and the notbook's "focus" will advance to the next cell.
+* * Continue to click the __Run__ button, advancing thorough all the cells in the notebook.  
 
 Note: The amount of time required to execute a cell varies with the amount of computation each cell performs. Some cells may take quite a bit longer than others to execute.
 In particular, cells that generate interactive maps of large quantities of geometric polygon data (e.g., TAZ maps) may take as long as a minute to execute.
