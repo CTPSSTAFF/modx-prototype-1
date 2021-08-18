@@ -84,7 +84,7 @@ To launch a particular MoDX Jupyter notebook, perform the following steps:
 * Click on the name of the notebook you wish to run
 * In a few moments, the notebook will launch in a _new_ tab in your web browser
 * To run the __entire__ notebook (i.e., all the cells in it), select __Cell > Run All__ from the menu at the top of the page. 
-** _This is not recommended for new users or those who will be making changes to the notebook._
+ _This is not recommended for brand-new users or those who expect to be making changes to the notebook._
 * To run the __notebook one cell at time__:
 ** Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
 ** Then, click the __Run__ button at the top of the page.
