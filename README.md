@@ -32,7 +32,7 @@ The following figure illustrates the relationship between the CTPS Travel Demand
 * R / RStudio
 * * Looked promising at first, but...
 * * Obstacles: R OMX library issues, RAM consumption
-* * Python / Jupyter Notebooks
+* Python / Jupyter Notebooks
 * * Python OMX library worked “out of the box”
 * * RAM consumption issues manageable
 * __Python / Jupyter Notebooks__ selected as implementation platform.
