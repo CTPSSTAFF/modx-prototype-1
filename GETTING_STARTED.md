@@ -37,6 +37,18 @@ This installation will require 477 MegaBytes of storage on your hard drive on a 
 The installation includes the Anaconda Shell ("command box") as well as Anaconda Navigator, a graphical front-end to Anaconda.
 It is useful to become familiar with both the command-line and graphical interfaces to Anaconda.
 
+Detailed insruction on installing Anaconda are as follows:
+1. Navigate to https://www.anaconda.com/products/individual.
+2. Click the download button for __Anaconda Individual Edition__, and if prompted by your web browser, save the file.
+3. Run the downloaded installer, named Anaconda<version #><date><OS/hardware architecture>.exe.
+4. Accept the license agreement.
+5. Keep the default option to install for "Just Me". (Qis this preferred, given that CTPS users have the ability to do administrative installations?)
+6. Accept the default installation location.
+7. eave both "advanced" options unchecked . (Do not add Anaconda to the PATH variable, as it could break prior software installations by leading to Anaconda being found before them. Do not register Anaconda as your default Python for similar reasons.)
+8. Click the "Install" button, and be patient. 
+* * The installation may appear to stall, as it will likely take ten minutes or more near the end to set up the "package cache" and initial environment. 
+* * You can click the "Details" button to reveal more of the progress being made.
+
 ## Creating an Anaconda Environment for MoDX
 
 A collection of packages that are compatible and work together is called an _environment_ in the Anaconda world.
