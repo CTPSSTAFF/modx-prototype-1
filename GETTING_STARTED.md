@@ -42,9 +42,9 @@ Detailed insruction on installing Anaconda are as follows:
 2. Click the download button for __Anaconda Individual Edition__, and if prompted by your web browser, save the file.
 3. Run the downloaded installer, named Anaconda<version #><date><OS/hardware architecture>.exe.
 4. Accept the license agreement.
-5. Keep the default option to install for "Just Me". (Qis this preferred, given that CTPS users have the ability to do administrative installations?)
+5. Keep the default option to install for "Just Me". (Q: Is this preferred, given that CTPS users have the ability to do administrative installations?)
 6. Accept the default installation location.
-7. eave both "advanced" options unchecked . (Do not add Anaconda to the PATH variable, as it could break prior software installations by leading to Anaconda being found before them. Do not register Anaconda as your default Python for similar reasons.)
+7. Leave both "advanced" options unchecked . (Do not add Anaconda to the PATH variable, as it could break prior software installations by leading to Anaconda being found before them. Do not register Anaconda as your default Python for similar reasons.)
 8. Click the "Install" button, and be patient. 
 * * The installation may appear to stall, as it will likely take ten minutes or more near the end to set up the "package cache" and initial environment. 
 * * You can click the "Details" button to reveal more of the progress being made.
@@ -53,12 +53,30 @@ Detailed insruction on installing Anaconda are as follows:
 
 A collection of packages that are compatible and work together is called an _environment_ in the Anaconda world.
 MoDX requires a specific collection of packages, based on Python version __3.8__.
-In order to create such an environment, perform the following steps:
-* From the Windows 10 start menu, launch an __Git bash__ shell
-* In this shell, clone the MoDX GitHub repository:
-* * git clone https://github.com/CTPSSTAFF/modx-prototype-1
-* __cd__ into the directory created by cloning the GitHub repo
-* * If you entered the command listed above literally, that directory will be named _modx-prototype-1_
+To create such an environment, you must first obtain a copy of the MoDX GitHub repository.
+
+### Cloning the MoDX GitHub Repository
+
+__If you have Git installed on your computer__:
+1. From the Windows 10 start menu, launch a __Git bash__ shell
+2. In this __Git bash__ shell, enter the command
+```
+git clone https://github.com/CTPSSTAFF/modx-prototype-1
+```
+3. If you entered the _git clone_ command listed above literally, the directory into which the repository was cloned will be named _modx-prototype-1_.
+
+__If you do not have Git installed on your computer__:
+1. Open a web browser tab
+2. Enter the address https://github.com/CTPSSTAFF/modx-prototype-1 in the address bar, and press ENTER.
+3. The page will appear (more-or-less) as follows:
+<img src="img/github-repo-page.png">
+4. Click on on the green __Code__ button in the upper right-hand portion of the page, and select __Download ZIP__.
+5. Save the ZIP file on your computer.
+6. Unpack the ZIP file in an appropriate location.
+7. If necessary, rename the unpacked directory _modx-protype-1_.
+
+### Creating the Anaconda Environment __per se__
+
 * Fron the Windows 10 Start menu, select __Anaconda3  (64-bit) > Anaconda Prompt (anaconda3)__ - this opens an _Anaconda_ command window
 * In the Anaconda command window, enter the command:
 * * __conda env create -f environments/modx_proto1.yml__, being sure to specify the _full path_ to the .yml file.
@@ -85,7 +103,7 @@ To get your local computer system ready to run MoDX, perform the following steps
 ## Launching Jupyter Notbooks
 
 To launch any of the MoDX Jupyter notebooks, perform the following steps:
-* From the Windows Start Menu, select Anaconda3 (64 bit) > Jupyter Notebook (modx_p1d0_envt)
+* From the Windows Start Menu, select Anaconda3 (64 bit) > Jupyter Notebook (modx_proto1)
 * This will take a few minutes to run; when complete a new tab will open in your default web browser
 * The tab will display a 'file browser' view of the directory into which you cloned the MoDX GitHub repository
 
