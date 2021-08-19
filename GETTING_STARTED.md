@@ -89,7 +89,7 @@ cd _fullly_qualified_path_to_/modx-prototype-1
 conda env create -f environments/modx_proto1.yml, being sure to specify the _full path_ to the .yml file.
 ```
 
-___It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__
+__It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__
 
 ## Gettng Your Local System Ready to Run MoDX
 
