@@ -38,7 +38,7 @@ The installation includes the Anaconda Shell ("command box") as well as Anaconda
 It is useful to become familiar with both the command-line and graphical interfaces to Anaconda.
 
 Detailed insruction on installing Anaconda are as follows:
-1. Navigate to <a href="https://www.anaconda.com/products/individual" target="_blank">Anaconda Individual Edition Windows Install Page</a>.
+1. Navigate [Anaconda Individual Edition Windows Install Page](https://www.anaconda.com/products/individual){:target="_blank"}
 2. Click the download button for __Anaconda Individual Edition__, and if prompted by your web browser, save the file.
 3. Run the downloaded installer, named Anaconda<version #><date><OS/hardware architecture>.exe.
 4. Accept the license agreement.
