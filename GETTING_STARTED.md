@@ -114,7 +114,6 @@ Notes:
 * * For example: __c.NotebookApp.notebook_dir = 'S:/my_modx_notebooks'__
 * The full path to one's MoDX directory _must_ be delimited by __single__ quotes, and use __forward__ slashes!
 
-
 ## Launching Jupyter Notbooks
 
 To launch any of the MoDX Jupyter notebooks, perform the following steps:
@@ -125,9 +124,9 @@ To launch any of the MoDX Jupyter notebooks, perform the following steps:
 ## Running a MoDX Jupyter Notebook
 
 To launch a particular MoDX Jupyter notebook, perform the following steps:
-1. In the 'file browser' tab created in your web browser in the previous step, navigate to the folder containing the Jupyter notebook you want to run
-2. Click on the name of the notebook you wish to run
-3. In a few moments, the notebook will launch in a _new_ tab in your web browser
+1. In the 'file browser' tab created in your web browser in the previous step, navigate to the folder containing the Jupyter notebook you want to run.
+2. Click on the name of the notebook you wish to run.
+3. In a few moments, the notebook will launch in a _new_ tab in your web browser.
 4. To run the __entire__ notebook (i.e., all the cells in it), select __Cell > Run All__ from the menu at the top of the page. 
 4. 1. _This is not recommended for brand-new users or those who expect to be making changes to the notebook._
 5. To run the notebook __one cell at time__ :
@@ -137,29 +136,33 @@ To launch a particular MoDX Jupyter notebook, perform the following steps:
 5. 4. Continue to click the __Run__ button, advancing thorough all the cells in the notebook.  
 
 Note: The amount of time required to execute a cell varies with the amount of computation each cell performs. Some cells may take quite a bit longer than others to execute.
-In particular, cells that generate interactive maps of large quantities of geometric polygon data (e.g., TAZ maps) may take as long as a minute to execute.
+In particular, cells that generate _interactive_ maps of large quantities of geometric polygon data (e.g., TAZ maps) may take as long as a minute to execute.
+
+__For example__, to run the notebook to compute total demand for the auomobile mode by TAZ:
+1. In the 'file browser' tab click on the __taz_maps__ folder.
+2. Then, click on the notebook named __demand_by_taz_auto_mode.ipynb__ to launch it.
 
 ## Shutting Down a MoDX Jupyter Notebook 
 
 To shut down a particular Jupyter notebook, perform the following steps:
-* In your web browser, navigate to the tab with the 'file system view' of your MoDX directory
-* Scroll to the top of this page
-* Click on the __Running__ tab
-* A list of your running Jupyter notbeooks will be displayed
-* Navigate to the row listing the notebook you want to shut down
-* Click on the orange-brown __Stop Kernel__ button
-* Wait a few moments for the kernel running your notebook to be shut down
-* When it has shut down, feel free to navigate back to the __Files__ tab in the 'file browser' view
-* In your web browser, switch to the tab in which your notebook _was_ running
-* Click the __x__ button on the browser tab to close the tab
-* When prompted by a pop-up to either stay on the page or to leave it, click the __Leave__ button.
+1. In your web browser, navigate to the tab with the 'file system view' of your MoDX directory.
+2. Scroll to the top of this page.
+3. Click on the __Running__ tab.
+4.  A list of your running Jupyter notbeooks will be displayed.
+5. Navigate to the row listing the notebook you want to shut down.
+6. Click on the orange-brown __Stop Kernel__ button.
+7. Wait a few moments for the kernel running your notebook to be shut down.
+8. When it has shut down, feel free to navigate back to the __Files__ tab in the 'file browser' view.
+9. In your web browser, switch to the tab in which your notebook _was_ running.
+10. Click the __x__ button on the browser tab to close the tab/
+11. When prompted by a pop-up to either stay on the page or to leave it, click the __Leave__ button.
 
 ## Shutting Down Jupyter Notebooks Altogether
 
 To compleltey shut down Jupyter notebooks (i.e., shut down the kernel running the notebooks), perform the following steps:
-* In your web browser, navigate to the tab with the 'file system view' of your MoDX directory
-* Click the __Logout__ button in the upper right-hand corner of this 'file system view' page
-* You may now close the tab in your web browser labeled "Jupyter Notebook".
+1. In your web browser, navigate to the tab with the 'file system view' of your MoDX directory.
+2. Click the __Logout__ button in the upper right-hand corner of this 'file system view' page.
+3. You may now close the tab in your web browser labeled "Jupyter Notebook".
 
 ## The Emergency Kill-Switch
 
@@ -168,7 +171,13 @@ such as running out of avaialble RAM on your system. (Because of RAM requirement
 MoDX Jupyter Notebook at any given time on typical systems with 8 GB of RAM.) 
 
 Under these circumstances Anaconda Navigator can be "killed" on a Windows 10 system as follows:
-* Open a command prompt ("DOS box")
-* Enter the command __tasklist | findstr "pythonw"__
-* Note the process-IDs of the list of processes produced by running the previous command
-* For each such process-ID, enter the command __tskill__ _process_ID_
+1 Open a Windows command prompt (a "DOS box")
+2. Enter the command:
+```
+tasklist | findstr "pythonw"
+```
+3. Note the process-IDs of the list of processes produced by running the previous command
+4. For each such process-ID, enter the command:
+```
+tskill process_ID
+```
