@@ -37,7 +37,7 @@ This installation will require 477 MegaBytes of storage on your hard drive on a 
 The installation includes the Anaconda Shell ("command box") as well as Anaconda Navigator, a graphical front-end to Anaconda.
 It is useful to become familiar with both the command-line and graphical interfaces to Anaconda.
 
-Detailed insruction on installing Anaconda are as follows:
+Detailed instructions on installing Anaconda are as follows:
 1. Navigate to [Anaconda Individual Edition Windows Install Page](https://www.anaconda.com/products/individual).
 2. Click the download button for __Anaconda Individual Edition__, and if prompted by your web browser, save the file.
 3. Run the downloaded installer, named Anaconda<version #><date><OS/hardware architecture>.exe.
@@ -45,8 +45,9 @@ Detailed insruction on installing Anaconda are as follows:
 5. Keep the default option to install for "Just Me". (Q: Is this preferred, given that CTPS users have the ability to do administrative installations?)
 6. Accept the default installation location.
 7. Leave both "advanced" options unchecked . (Do not add Anaconda to the PATH variable, as it could break prior software installations by leading to Anaconda being found before them. Do not register Anaconda as your default Python for similar reasons.)
-8. Click the "Install" button, and be patient.   
-Note:  
+8. Click the "Install" button, and be patient.
+
+Note: 
 * The installation may appear to stall, as it will likely take ten minutes or more near the end to set up the "package cache" and initial environment. 
 * You can click the "Details" button to reveal more of the progress being made.
 
@@ -75,7 +76,7 @@ __If you do not have Git installed on your computer__:
 4. Click on on the green __Code__ button in the upper right-hand portion of the page, and select __Download ZIP__.  
 5. Save the ZIP file on your computer.  
 6. Unpack the ZIP file in an appropriate location.  
-7. If necessary, rename the unpacked directory _modx-protype-1_.  
+7. If necessary, rename the unpacked directory _modx-prototype-1_.  
 
 ### Creating the Anaconda Environment _per se_
 
@@ -84,16 +85,18 @@ __If you do not have Git installed on your computer__:
 ```
 cd _fullly_qualified_path_to_/modx-prototype-1
 ```
-3. In the __Anaconda command window__, create the _modx_prot1_ environment for MoDX by entering the following command:
+3. In the __Anaconda command window__, create the _modx_proto1_ environment for MoDX by entering the following command:
 ```
-conda env create -f environments/modx_proto1.yml, being sure to specify the _full path_ to the .yml file.
+conda env create -f environments/modx_proto1.yml
 ```
-
-__It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__
+Note:
+* Be sure to specify the _full path_ to the .yml file.
+* __It will take approximately 15-20 minutes for Anaconda to create the environment to run MoDX on your computer.__
 
 ## Gettng Your Local System Ready to Run MoDX
 
 To get your local computer system ready to run MoDX, perform the following steps, after having cloned the MoDX GitHub repository as described above. 
+
 __NOTE: You will need administrative priveleges on your computer in order to execute (some of) these commands.__
 
 1. For the purpose of the rest of this discussion, we'll call the _fully-qualified_ path to the directory into which you cloned the MoDX GitHub repository __my_modx_dir__
@@ -110,16 +113,16 @@ mkdir S:/my_modx_output_dir
 ```
 
 Notes:
-* In step (7) above, note that __my_modx_dir__ _must_ be surrounded in single quotes
+* In step (8) above, note that __my_modx_dir__ _must_ be surrounded in single quotes
 * * For example: __c.NotebookApp.notebook_dir = 'S:/my_modx_notebooks'__
 * The full path to one's MoDX directory _must_ be delimited by __single__ quotes, and use __forward__ slashes!
 
 ## Launching Jupyter Notbooks
 
 To launch any of the MoDX Jupyter notebooks, perform the following steps:
-* From the Windows Start Menu, select Anaconda3 (64 bit) > Jupyter Notebook (modx_proto1)
-* This will take a few minutes to run; when complete a new tab will open in your default web browser
-* The tab will display a 'file browser' view of the directory into which you cloned the MoDX GitHub repository
+* From the Windows Start Menu, select __Anaconda3 (64 bit) > Jupyter Notebook (modx_proto1)__.
+* This will take a few minutes to run; when complete, a new tab will open in your default web browser.
+* The tab will display a 'file browser' view of the directory into which you cloned the MoDX GitHub repository.
 
 ## Running a MoDX Jupyter Notebook
 
@@ -128,12 +131,12 @@ To launch a particular MoDX Jupyter notebook, perform the following steps:
 2. Click on the name of the notebook you wish to run.
 3. In a few moments, the notebook will launch in a _new_ tab in your web browser.
 4. To run the __entire__ notebook (i.e., all the cells in it), select __Cell > Run All__ from the menu at the top of the page. 
-4. 1. _This is not recommended for brand-new users or those who expect to be making changes to the notebook._
+* * _This is not recommended for brand-new users or those who expect to be making changes to the notebook._
 5. To run the notebook __one cell at time__ :
-5. 1. Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
-5. 2. Then, click the __Run__ button at the top of the page.
-5. 3. The notebook will execute the first cell, and the notbook's "focus" will advance to the next cell.
-5. 4. Continue to click the __Run__ button, advancing thorough all the cells in the notebook.  
+* * Click in the first cell in the notebook; this will set the notebook's "focus" to the first cell.
+* * Then, click the __Run__ button at the top of the page.
+* * The notebook will execute the first cell, and the notbook's "focus" will advance to the next cell.
+* * Continue to click the __Run__ button, advancing thorough all the cells in the notebook.  
 
 Note: The amount of time required to execute a cell varies with the amount of computation each cell performs. Some cells may take quite a bit longer than others to execute.
 In particular, cells that generate _interactive_ maps of large quantities of geometric polygon data (e.g., TAZ maps) may take as long as a minute to execute.
@@ -171,12 +174,12 @@ such as running out of avaialble RAM on your system. (Because of RAM requirement
 MoDX Jupyter Notebook at any given time on typical systems with 8 GB of RAM.) 
 
 Under these circumstances Anaconda Navigator can be "killed" on a Windows 10 system as follows:
-1 Open a Windows command prompt (a "DOS box")
+1. Open a Windows command prompt (a "DOS box")
 2. Enter the command:
 ```
 tasklist | findstr "pythonw"
 ```
-3. Note the process-IDs of the list of processes produced by running the previous command
+3. Note the process-IDs of the list of processes produced by running the previous command.
 4. For each such process-ID, enter the command:
 ```
 tskill process_ID
