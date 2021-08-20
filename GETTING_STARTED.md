@@ -42,7 +42,7 @@ Detailed instructions on installing Anaconda are as follows:
 2. Click the download button for __Anaconda Individual Edition__, and if prompted by your web browser, save the file.
 3. Run the downloaded installer, named Anaconda<version #><date><OS/hardware architecture>.exe.
 4. Accept the license agreement.
-5. Keep the default option to install for "Just Me". (Q: Is this preferred, given that CTPS users have the ability to do administrative installations?)
+5. Keep the default option to install for "Just Me".
 6. Accept the default installation location.
 7. Leave both "advanced" options unchecked . (Do not add Anaconda to the PATH variable, as it could break prior software installations by leading to Anaconda being found before them. Do not register Anaconda as your default Python for similar reasons.)
 8. Click the "Install" button, and be patient.
