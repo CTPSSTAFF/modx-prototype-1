@@ -70,7 +70,7 @@ git clone https://github.com/CTPSSTAFF/modx-prototype-1
 __If you do not have Git installed on your computer__:
 1. Open a web browser tab
 2. Enter the address https://github.com/CTPSSTAFF/modx-prototype-1 in the address bar, and press ENTER.
-3. The page will appear (more-or-less) as follows:
+3. The page will appear (more-or-less) as follows:  
 <img src="img/github-repo-page-vanilla.png">
 4. Click on on the green __Code__ button in the upper right-hand portion of the page, and select __Download ZIP__.  
 <img src="img/github-repo-page-code-button.png">
