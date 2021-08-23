@@ -99,7 +99,7 @@ Note:
 
 ### Preliminaries
 
-Before the actual work of getting your system ready to run MoDX, two preliminaries must be dealt with:
+Before the actual work of getting your system ready to run MoDX, two preliminaries must be dealt with:  
 1. Ensuring you have administrative priveleges on your local system
 2. Ensuring you can view "hidden" files and folders on your system
 
