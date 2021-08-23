@@ -97,7 +97,16 @@ Note:
 
 To get your local computer system ready to run MoDX, perform the following steps, after having cloned the MoDX GitHub repository as described above. 
 
-__NOTE: You will need administrative priveleges on your computer in order to execute (some of) these commands.__
+__Some Preliminaries__  
+* You will need administrative priveleges on your computer in order to execute (some of) these commands. 
+* * _All CTPS users should have admin priveleges on their desktop system._ If you do not, plesae contact the CTPS IT manager.
+
+* You will need to be able to view "hidden files and folders" in order to execute (some of) these commands. To ensure that this is the case:
+* * Open the Windows __Control Panel__. The simplest way to do this is to enter "control panel" in the search box next to the Windows icon in the lower left-hand corner of the screen, and click on the Control Panel icon when it is displayed.
+* * A large number of icons will be displayed. Find the one labeled __File Explorer Options__, and click it.
+* * In the dialog box that opens, click on the __View__ tab.
+* * In the __Advanced Settings__ display, under __Hidden files and folders__, click the __Show hidden files, folders, and drives__ radio button.
+* * Click the __Apply__ and __OK_ buttons at the bottom of the File Explorer Options dialog box. 
 
 1. For the purpose of the rest of this discussion, we'll call the _fully-qualified_ path to the directory into which you cloned the MoDX GitHub repository __my_modx_dir__
 2. Set this directory as the default location from which to launch Jupyter notebooks:
@@ -112,7 +121,7 @@ __NOTE: You will need administrative priveleges on your computer in order to exe
 mkdir S:/my_modx_output_dir
 ```
 
-Notes:
+Notes:  
 * In step (8) above, note that __my_modx_dir__ _must_ be surrounded in single quotes
 * * For example: __c.NotebookApp.notebook_dir = 'S:/my_modx_notebooks'__
 * The full path to one's MoDX directory _must_ be delimited by __single__ quotes, and use __forward__ slashes!
