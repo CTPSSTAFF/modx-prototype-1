@@ -201,8 +201,67 @@ class tazManager():
         return retval
 # end_class tazManager
 
+
 #
-# Section 3: Dataframe and Geo-dataframe utilities
+# Section 3: Utilities for Transit Mode
+#
+_mode_to_metamode_mapping_table = {
+    1:  'MBTA_Bus',
+    2:  'MBTA_Bus',
+    3:  'MBTA_Bus' ,
+    4:  'Light_Rail',
+    5:  'Heavy_Rail',
+    6:  'Heavy_Rail',
+    7:  'Heavy_Rail',
+    8:  'Heavy_Rail',
+    9:  'Commuter_Rail',
+    10: 'Ferry',
+    11: 'Ferry',
+    12: 'Light_Rail',
+    13: 'Light_Rail',
+    14: 'Shuttle_Express',
+    15: 'Shuttle_Express',
+    16: 'Shuttle_Express',
+    17: 'RTA',
+    18: 'RTA',
+    19: 'RTA',
+    20: 'RTA',
+    21: 'RTA',
+    22: 'RTA',
+    23: 'Private',
+    24: 'Private',
+    25: 'Private',
+    26: 'Private',
+    27: 'Private',
+    28: 'Private',
+    29: 'Private',
+    30: 'Private',
+    31: 'Private',
+    32: 'Commuter_Rail',
+    33: 'Commuter_Rail',
+    34: 'Commuter_Rail',
+    35: 'Commuter_Rail',
+    36: 'Commuter_Rail',
+    37: 'Commuter_Rail',
+    38: 'Commuter_Rail',
+    39: 'Commuter_Rail',
+    40: 'Commuter_Rail',
+    41: 'Commuter_Rail',
+    42: 'Commuter_Rail',
+    43: 'Commuter_Rail',
+    44: 'Commuter_Rail',
+    70: 'Walk' }
+
+def mode_to_metamode(mode):
+	retval = 'None'
+	if mode in _mode_to_metamode_mapping_table:
+		return _mode_to_metamode_mapping_table(mode)
+	# end_if
+	return retval
+# mode_to_metamode()
+
+#
+# Section 4: Dataframe and Geo-dataframe utilities
 #
 
 # Export specified list of columns of a dataframe to a CSV file.
@@ -226,4 +285,3 @@ def export_gdf_to_geojson(geo_dataframe, geojson_fn):
 def export_gdf_to_shapefile(geo_dataframe, shapefile_fn):
         geo_dataframe.to_file(shapefile_fn, driver='ESRI Shapefile')
 #
-
