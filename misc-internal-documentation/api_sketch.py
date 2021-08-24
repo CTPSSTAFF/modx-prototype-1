@@ -113,7 +113,7 @@ def load_tts_as_np_arrays(tts, time_periods=None, mode_list=None):
 
 class tazManager():
     _instance = None
-    _default_base = r'C:/Users/ben_k/work_stuff/modx_data/canonical_TAZ_shapefile/'
+    _default_base = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
     _default_shapefile_fn = 'candidate_CTPS_TAZ_STATEWIDE_2019.shp'
     _default_fq_shapefile_fn = _default_base + _default_shapefile_fn
     _taz_table = []
