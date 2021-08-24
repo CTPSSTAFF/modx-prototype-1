@@ -3,7 +3,7 @@ Model Data Explorer Prototype #1
 
 ## Ojbectives
 
-* Make Travel Demand Model (TDM) input and output data accessible to users without requiring access to a TransCAD machine or SW license
+* Make Travel Demand Model (TDM) input and output data accessible to users without requiring access to a TransCAD machine or software license
 * * Reduce contention for TransCAD machines
 * * Make model data more easily accessible to modelers
 * * Make model data accessible to non-modelers
@@ -13,10 +13,10 @@ Model Data Explorer Prototype #1
 
 * All data in an open, standards-compliant format
 * * OMX, CSV, SHP, JSON, GeoJSON, etc.
-* * Export data in proprietary format to one of the above formats
+* * All relevant data in a proprietary format is exported to one of the above formats
 * Open-source implementation 
 * * Enables MoDX to be “run anywhere, by anyone”
-* * Exploration of model data doesn’t require SW license ($$$)
+* * Exploration of model data doesn’t require a TransCAD software license ($$$)
 * * Leverage open source community expertise in analysis, visualization, etc.
 
 ## Relationship Between the CTPS Travel Demand Model and MoDX
@@ -31,8 +31,8 @@ The following figure illustrates the relationship between the CTPS Travel Demand
 * * Python / Jupyter Notebooks
 * R / RStudio
 * * Looked promising at first, but...
-* * Obstacles: R OMX library issues, RAM consumption
+* * Obstacles: Issues with R OpenMatrix (OMX) library, RAM consumption
 * Python / Jupyter Notebooks
-* * Python OMX library worked “out of the box”
+* * Python OpenMatrix (OMX) library worked “out of the box”
 * * RAM consumption issues manageable
 * __Python / Jupyter Notebooks__ selected as implementation platform.
