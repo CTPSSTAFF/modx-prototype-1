@@ -1,7 +1,7 @@
 # Sketches of routines to add to MoDX API
 #
 # Author: Ben Krepp 
-# Date:   23 August 2021
+# Date:   1 September 2021
 
 import csv
 import numpy as np
@@ -10,11 +10,17 @@ import geopands as gp
 from dbfread import DBF
 import pydash
 
-_version = 0.0.1
+#
+# Section 0: Version identification
+#
+_version = 0.1.1
 def get_version():
     return _version
 #
 
+#
+# Section 1: Trip table management
+#
 # Internal variables, pseudo-constants, etc.
 #
 _all_time_periods = ['am', 'md', 'pm', 'nt']
@@ -23,9 +29,6 @@ _truck_modes = [ 'Heavy_Truck', 'Heavy_Truck_HazMat', 'Medium_Truck', 'Medium_Tr
 _nm_modes = [ 'Walk', 'Bike' ]
 _transit_modes = [ 'DAT_Boat', 'DET_Boat', 'DAT_CR', 'DET_CR', 'DAT_LB', 'DET_LB', 'DAT_RT', 'DET_RT', 'WAT' ]
 _all_modes = _auto_modes + _truck_modes + _nm_modes + _transit_modes
-
-#
-# Section 1: Trip table management
 #
 # Function: load_tts_as_np_arrays
 #
@@ -83,7 +86,7 @@ def load_tts_as_np_arrays(tts, time_periods=None, mode_list=None):
 #              8 in_brmpo - 1 (yes) or 0 (no)
 #              9. subregion - abbreviation of Boston Region MPO subregion or NULL
 #
-#         An objectd of class tazManager is instantiated by passing in the fully-qualified path
+#         An object of class tazManager is instantiated by passing in the fully-qualified path
 #         to a Shapefile to the class constructor. Hence, it is possible to have more than one
 #         instance of this class active simultaneously, should this be needed.
 #
@@ -110,7 +113,6 @@ def load_tts_as_np_arrays(tts, time_periods=None, mode_list=None):
 #  all of the keys (i.e., 'attributes') listed above. To convert such a list to a list of _only_ the TAZ IDs, call taz_ids
 # on the list of TAZ records.
 #
-
 class tazManager():
     _instance = None
     _default_base = r'G:/Data_Resources/modx/canonical_TAZ_shapefile/'
@@ -201,9 +203,8 @@ class tazManager():
         return retval
 # end_class tazManager
 
-
 #
-# Section 3: Utilities for Transit Mode
+# Section 3: Utilities for the transit mode
 #
 _mode_to_metamode_mapping_table = {
     1:  'MBTA_Bus',
@@ -252,6 +253,16 @@ _mode_to_metamode_mapping_table = {
     44: 'Commuter_Rail',
     70: 'Walk' }
 
+# Function: mode_to_metamode
+#
+# Summary: Given one of the 50+ transportation "modes" supported by the TDM, return its "meta mode".
+#          For example, the model supports 3 different "modes" for MBTA bus routes; all three of 
+#          these have the common "metamode" of 'MBTA_Bus'.
+#
+# Parameters:   mode  String identifying one of the transporation "modes" supported by the TDM.
+#
+# Return value: String representing the input mode's "metamode."
+#
 def mode_to_metamode(mode):
 	retval = 'None'
 	if mode in _mode_to_metamode_mapping_table:
@@ -264,24 +275,90 @@ def mode_to_metamode(mode):
 # Section 4: Dataframe and Geo-dataframe utilities
 #
 
-# Export specified list of columns of a dataframe to a CSV file.
-# If a list of columns isn't specified, export all columns.
+# Function: export_df_to_csv
+#
+# Summary: Export columns in a dataframe to a CSV file.
+#          If a list of columns to export isn't specified, export all columns.
+#
+# Parameters:   dataframe  -  Pandas dataframe
+#               csv_fn      - Name of CSV file
+#               column_list - List of columns to export, or None
+#
+# Return value: N/A
+#
 def export_df_to_csv(dataframe, csv_fn, column_list=None):
 	if column_list != None:
 		dataframe.to_csv(csv_fn, sep=',', column_list)
 	else:
 		dataframe.to_csv(csv_fn, sep=',')
 # end_def
-# 
 
-# Export a geo-dataframe to a GeoJSON file.
+# Function: export_gdf_to_geojson
+#
+# Summary: Export a GeoPandas gdataframe to a GeoJSON file.
+#
+# Parameters:   geo_dataframe  - GeoPandas dataframe
+#               geojson_fn     - Name of GeoJSON file
+#
+# Return value: N/A
+#
 def export_gdf_to_geojson(geo_dataframe, geojson_fn):
         geo_dataframe.to_file(geojson_fn, driver='GeoJSON')
+# end_def
+
+# Function: export_gdf_to_shapefile
 #
-        
-# Export a geo-dataframe to an ESRI-format shapefile.
+# Summary: Export a GeoPandas gdataframe to an ESRI-format shapefile
+#
+# Parameters:   geo_dataframe  - GeoPandas dataframe
+#               geojson_fn     - Name of shapefile
+#
 # Note: Attribute (property) names longer than 10 characters will be truncated,
 #       due to the limitations of the DBF file used for Shapefile attributes.
+#
+# Return value: N/A
+#
 def export_gdf_to_shapefile(geo_dataframe, shapefile_fn):
         geo_dataframe.to_file(shapefile_fn, driver='ESRI Shapefile')
+# end_def
+
+# Function: export_gdf_to_shapefile
 #
+# Summary: Return the bounding box of all the features in a geo-dataframe.
+#
+# Parameters:   gdf - a GeoPandas dataframe
+#
+# Return value: Bounding box of all the features in the input geodataframe.
+#               The bounding box is returned as a dictionary with the keys: 
+#               { 'minx', 'miny', 'maxx', 'maxy'}.
+# 
+def bbox_of_gdf(gdf):
+    bounds_tuples = gdf['geometry'].map(lambda x: x.bounds)
+    bounds_dicts = []
+    for t in bounds_tuples:
+        temp = { 'minx' : t[0], 'miny' : t[1], 'maxx' : t[2], 'maxy' : t[3] }
+        bounds_dicts.append(temp)
+    # end_for
+    bounds_df = pd.DataFrame(bounds_dicts)
+    minx = bounds_df['minx'].min()
+    miny = bounds_df['miny'].min()
+    maxx = bounds_df['maxx'].max()
+    maxy = bounds_df['maxy'].max()
+    retval = { 'minx' : minx, 'miny' : miny, 'maxx' : maxx, 'maxy' : maxy }
+    return retval
+# end_def bbox_of_gdf()
+
+# Function: center_of_bbox
+#
+# Summary:  Given a geomtric "bounding box", return its center point. 
+#
+# Parameters: bbox - Bounding box in the form of a dictionary with the keys { 'minx', 'miny', 'maxx', 'maxy'}
+#
+# Return value: Center point of the bounding box as a dictionary with the keys { 'x' , 'y' }.
+#
+def center_of_bbox(bbox):
+    center_x = bbox['minx'] + (bbox['maxx'] - bbox['minx']) / 2
+    center_y = bbox['miny'] + (bbox['maxy'] - bbox['miny']) / 2
+    retval = { 'x' : center_x, 'y' : center_y }
+    return retval
+# end_def center_of_bbox()
