@@ -21,7 +21,7 @@ and otherwise to frolic about in what otherwise might appear to be tens of gigab
 A Jupyter Notebook is an open-source web
 application that allows user to create and share documents that contain live code, equations, visualizations and narrative text. The code in MoDX Jupyter notebooks is
 written in the [Python](https://python.org) programming language, and makes use of many "packages" in addition to those included in the Python Standard Library.
-These packages provide support forsuch things as working with files in [Open Matrix](https://github.com/osPlanning/omx/wiki/Specification) format,
+These packages provide support for such things as working with files in [Open Matrix](https://github.com/osPlanning/omx/wiki/Specification) format,
 efficiently executing calcutions on large arrays of of numeric data, working with tabular and spatial data in "data frames", 
 generating static and interactive graphs, plots, and maps, and so forth.
 
@@ -107,7 +107,7 @@ Before the actual work of getting your system ready to run MoDX, two preliminari
 #### Administrative Priveleges
 
 You will need administrative priveleges on your computer in order to execute (some of) these commands. 
-_All CTPS users should have admin priveleges on their desktop system._ If you do not, plesae contact the CTPS IT manager.
+_All CTPS users should have admin priveleges on their desktop system._ If you do not, please contact the CTPS IT manager.
 
 #### Visibility of Hidden Files and Folders
 
@@ -116,7 +116,7 @@ You will need to be able to view "hidden files and folders" in order to execute 
 2. A large number of icons will be displayed. Find the one labeled __File Explorer Options__, and click it.
 3. In the dialog box that opens, click on the __View__ tab.
 4. In the __Advanced Settings__ display, under __Hidden files and folders__, click the __Show hidden files, folders, and drives__ radio button.
-5. Click the __Apply__ and __OK_ buttons at the bottom of the File Explorer Options dialog box. 
+5. Click the __Apply__ and __OK__ buttons at the bottom of the File Explorer Options dialog box. 
 
 ### The Actual Preparatory Steps
 
@@ -191,7 +191,6 @@ To launch Jupyter Notebooks from an Anaconda Command Prompt, do the following:
 2. In the Anaconda command window, enter the following command:
 ```
 conda activate modx_proto1
-cd
 ```
 3. In the Anaconda command window, enter the following commands, where _my_modx_dir_ is the full path to the directory into which you cloned the modx-prototype-1 GitHub repository:
 ```
