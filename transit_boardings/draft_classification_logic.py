@@ -13,7 +13,7 @@ _classification_table = {
     11: 'Other Ferries',
     12: 'Silver Line',
     13: 'Sliver Line',
-    14: 'Logan Express,
+    14: 'Logan Express',
     15: 'Logan Shuttle',
     16: 'MGH and Other Shuttles',
     17: 'Brockton RTA Bus',
