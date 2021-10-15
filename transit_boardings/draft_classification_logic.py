@@ -65,13 +65,13 @@ def classify_transit_route(row):
     retval = 'None'
     eds_mode = row['Mode']
     if eds_mode == 4:
-        retval = classifiy_green_line_route(row)
+        retval = classify_green_line_route(row)
     elif eds_mode in [12, 13]:
         retval = classify_silver_line_route(row)
     elif eds_mode in [9,34, 35, 36, 37, 38, 39, 40]:
         retval = classify_commuter_rail_route(row)
     elif eds_mode in _classification_table:
-        retval = _classification_table[mode]
+        retval = _classification_table[eds_mode]
     # end_if
     return retval
 # end_def classify_transit_route()
