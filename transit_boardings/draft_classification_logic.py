@@ -13,7 +13,7 @@ _classification_table = {
     11: 'Other Ferries',
     12: 'Silver Line',
     13: 'Sliver Line',
-    14: 'Logan Express',
+    14: 'Logan Express,
     15: 'Logan Shuttle',
     16: 'MGH and Other Shuttles',
     17: 'Brockton RTA Bus',
@@ -45,33 +45,33 @@ _classification_table = {
     43: 'PVTA RTA Bus',
     44: 'Unknown RTA Bus',
     70: 'Walk' }
-	
+    
 def classify_green_line_route(row):
-	# To be fleshed out...
-	retval = 'Green Line'
-	return retval
-	
+    # To be fleshed out...
+    retval = 'Green Line'
+    return retval
+    
 def classify_silver_line_route(row):
-	# To be fleshed out...
-	retval = 'Silver Line'
-	return retval
-	
+    # To be fleshed out...
+    retval = 'Silver Line'
+    return retval
+    
 def classify_commuter_rail_route(row):
-	# To be fleshed out...
-	retval = 'Commuter Rail'
-	return retval
+    # To be fleshed out...
+    retval = 'Commuter Rail'
+    return retval
 
 def classify_transit_route(row):
     retval = 'None'
-	eds_mode = row['Mode']
-	if eds_mode == 4:
-		retval = classifiy_green_line_route(row)
-	elif eds_mode in [12, 13]:
-		retval = classify_silver_line_route(row)
-	elif eds_mode in [9,34, 35, 36, 37, 38, 39, 40]:
-		retval = classify_commuter_rail_route(row)
+    eds_mode = row['Mode']
+    if eds_mode == 4:
+        retval = classifiy_green_line_route(row)
+    elif eds_mode in [12, 13]:
+        retval = classify_silver_line_route(row)
+    elif eds_mode in [9,34, 35, 36, 37, 38, 39, 40]:
+        retval = classify_commuter_rail_route(row)
     elif eds_mode in _classification_table:
         retval = _classification_table[mode]
     # end_if
-	return retval
+    return retval
 # end_def classify_transit_route()
