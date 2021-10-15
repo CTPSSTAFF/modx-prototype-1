@@ -47,15 +47,18 @@ _classification_table = {
     70: 'Walk' }
 	
 def classify_green_line_route(row):
-	retval = '???'
+	# To be fleshed out...
+	retval = 'Green Line'
 	return retval
 	
 def classify_silver_line_route(row):
-	retval = '??????'
+	# To be fleshed out...
+	retval = 'Silver Line'
 	return retval
 	
 def classify_commuter_rail_route(row):
-	retval = '?????????'
+	# To be fleshed out...
+	retval = 'Commuter Rail'
 	return retval
 
 def classify_transit_route(row):
