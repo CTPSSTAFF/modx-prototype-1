@@ -1,4 +1,4 @@
-# taz_maps
+# transit_boardings
 
 This directory contains Jupyter Notebooks for calculating (and in some cases visualizing) transit boarding data.
 
