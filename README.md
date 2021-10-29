@@ -45,13 +45,14 @@ The following figure illustrates the relationship between the CTPS Travel Demand
 | GETTING_STARTED.md | A "Getting Started" guide for the MoDX Prototype #1. __READ THIS SECOND.__ |
 | img | Contains image data used for illustrations in GETTING_STARTED.md. |
 | LICENSE | License for code in this repository (GNU GPL v3) |
-
+| .gitignore | File for use by Git version control system. __DO NOT MODIFY.__ |
 | config.py | Specify locations of base and (if needed) comparison scenario data, reference data, and your output directory. |
 | environments | Anaconda _environments_ for running MoDX Jupyter Notebooks. See GETTING_STARTED.md. __DO NOT MODIFY.__ |
-| highway_volumes | Generate report and visualization of highway volumes. |
-| roadway_maps | Generate reports and visualizations of speed, capacity, and volume/capacity ratio for highway links. |
-| taz_maps | Generate reports and visualizations of travel demand, by TAZ. |
-| transit_boardings | Generate reports of transit boardings. |
+| highway_volumes | Jupyter notebook to generate report and visualization of highway volumes. |
+| roadway_maps | Jupyter notebooks to generate reports and visualizations of speed, capacity, and volume/capacity ratio for highway links. |
+| taz_maps | Jupyter notebooks to generate reports and visualizations of travel demand, by TAZ. |
+| transit_boardings | Jupyter notebooks to generate reports of transit boardings. |
+| read_skims | Prototype code for reading travel demand mode "skim" data. |
 | utilities | Miscellaneous "utility" code compiled by MoDX developers for incorporation in a "modxlib." __DO NOT MODIFY.__ |
 | sample_data | Sample data for running some of the MoDX Jupyter Notebooks. |
-| misc-internal-documentation | This directory contains miscellaneous pieces of internal documentation created during the development of MoDX prototype #1. __DO NOT MODIFY.__ |
+| misc-internal-documentation | Miscellaneous pieces of internal documentation created during the development of MoDX prototype #1. __DO NOT MODIFY.__ |
