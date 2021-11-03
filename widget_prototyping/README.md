@@ -1,4 +1,4 @@
-## widget_prottyping
+## widget_prototyping
 
 This directory contains notebooks to prototype use of ipywidgets widgets and the ipyfilechooser FileChooser widget.
 
