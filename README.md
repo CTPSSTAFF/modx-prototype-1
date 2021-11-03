@@ -1,7 +1,7 @@
 # modx-prototype-1
 Model Data Explorer Prototype #1
 
-## Ojbectives
+## Objectives
 
 * Make Travel Demand Model (TDM) input and output data accessible to users without requiring access to a TransCAD machine or software license
 * * Reduce contention for TransCAD machines
